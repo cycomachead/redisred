@@ -11,6 +11,16 @@ html
           th.col-sm-2 Key
           th.col-sm-7 URL
           th.col-sm-3(colspan=3) Clicks
+        tr
+          form(action="/admin/redirect/create", method="POST")
+            input(type="hidden", name="_csrf", value=token)
+            td.col-sm-2
+              input.form-control(name="key", placeholder="Redirect Name")
+            td.col-sm-7
+              input.form-control(name="url", placeholder="https://")
+            td.col-sm-1 N/A
+            td.col-sm-2(colspan=2)
+              button.btn.btn-danger.btn-block Create / Update
         each redirect in redirects
           tr
             td.col-sm-2
@@ -23,14 +33,4 @@ html
                 input(type="hidden", name="_csrf", value=token)
                 input(type="hidden", name="key", value=redirect.key)
                 button.btn.btn-default.btn-block.remove-button Remove
-        tr
-          form(action="/admin/redirect/create", method="POST")
-            input(type="hidden", name="_csrf", value=token)
-            td.col-sm-2
-              input.form-control(name="key", placeholder="Redirect Name")
-            td.col-sm-7
-              input.form-control(name="url", placeholder="https://")
-            td.col-sm-1 N/A
-            td.col-sm-2(colspan=2)
-              button.btn.btn-danger.btn-block Create / Update
       a.btn.btn-default.btn-block(href="/admin/logout") Log out
