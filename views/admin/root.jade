@@ -1,17 +1,28 @@
 extends ../layouts/layout.jade
 
 block content
-  div.container(style="margin-top: 10%; max-width: 500px;")
+  div.container-fluid
     h1(style="text-align: center; font-size: 4em;") #{options.APP_NAME} admin
-    div.content
-      form(action="/admin/login", method="POST")
-        div.form-group
-          label(for="username") Username
-          input.form-control(id="username", name="username", placeholder="Username")
-        div.form-group
-          label(for="password") Password
-          input.form-control(id="password", name="password", type="password", placeholder="Password")
-        button.btn.btn-danger.btn-block Log in
-        #alert.alert.alert-danger(style="margin-top: 10px; display: none;") Wrong username or password.
+    div.row
+      div.col-md-3
+      div.col-md-6
+        div.card.card-block.login-container
+          img.login-logo(src='/assets/img/bjc.png')
+          h2.card-title Login
+          #alert.alert.alert-danger.flash Wrong username or password.
+          div.form-box
+            form(action="/admin/login", method="POST")
+              div.form-group
+                input.form-control(
+                  id="username",
+                  name="username",
+                  placeholder="Username")
+              div.form-group
+                input.form-control(
+                  id="password",
+                  name="password", type="password",
+                  placeholder="Password")
+              button.login.btn.btn-primary.btn-block Log in
+      div.col-md-3
         script if (window.location.hash.length) document.getElementById("alert").style.display = "block";
 

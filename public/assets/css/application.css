@@ -2,8 +2,46 @@ body {
   background-color: Whitesmoke;
 }
 
-.entry-box {
-  border-radius: 10px;
-  background-color: #FFF;
-  box-shadow: 2px 2px 5px;
+.main-content {
+  margin: 10% 3%;
 }
+
+/* TODO: This is temporary */
+.flash {
+  margin-top: 10px;
+  font-weight: bold;
+  display: none;
+}
+
+.login-container {
+    position: relative;
+    text-align: center;
+    background: #FFF;
+    border-radius: 10px;
+    border: 1.5px solid #CCC;
+}
+
+.login-logo {
+    max-width: 100px;
+    max-height: 100px;
+    margin: 10px auto 30px;
+}
+
+.form-box input {
+  text-align: center;
+  padding: 10px;
+  border: 1.5px solid #CCC;;
+  background: #FAFAFA;
+}
+
+.form-box input:focus {
+  border-width: 2px;
+}
+
+.form-box button.login {
+  margin-top: 15px;
+  padding: 8px;
+  font-size: 1.2rem;
+  font-variant: small-caps;
+}
+
