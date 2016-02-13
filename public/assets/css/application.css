@@ -6,6 +6,17 @@ body {
   margin: 10% 3%;
 }
 
+.title-header {
+  text-align: center;
+  font-size: 4em;
+}
+
+.td-overflow {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: keep-all;
+}
+
 /* TODO: This is temporary */
 .flash {
   margin-top: 10px;
