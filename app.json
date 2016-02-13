@@ -11,6 +11,9 @@
     "redis"
   ],
   "env": {
+    "APP_NAME": {
+        "description": "Your name for the app, such as redisred."
+    },
     "ADMIN_USERNAME": {
       "description": "The username used to log into the admin console."
     },

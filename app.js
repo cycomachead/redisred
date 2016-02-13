@@ -19,6 +19,7 @@ var passport = require('passport');
 var favicon = require('serve-favicon');
 var RedisStore = require('connect-redis')(expressSession);
 
+var APPNAME = 'bjc.link'
 //Initialize auth
 authentication(passport, adminUsername, adminPassword);
 
@@ -36,13 +37,23 @@ app.use(expressSession({ store: redisSessionStore, secret: sessionSecret, resave
 app.use(passport.initialize());
 app.use(passport.session());
 
-//Initialize controllers
+// Initialize controllers
 var frontendController = require('./controllers/admin/FrontendController')(redis, passport);
 var apiController = require('./controllers/admin/APIController')(redis, apiToken);
 var redirectController = require('./controllers/RedirectController')(redis);
 
-//Initialize routes
+// Initialize routes
 var admin = require('./routes/admin.js')(frontendController, apiController);
+app.use(function(req, res, next) {
+  if (!res.locals) {
+    res.locals = {};
+  }
+  res.locals.options = {
+    APP_NAME : process.env.APP_NAME || 'redisred'
+  };
+  
+  next();
+});
 app.use('/admin', admin);
 var main = require('./routes/main.js')(rootRedirect, redirectController);
 app.use('/', main);

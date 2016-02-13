@@ -1,9 +1,10 @@
 var redirectModel = require('../../models/Redirect');
+
 module.exports = function(redis, passport) {
   var Redirect = redirectModel(redis);
   var FrontendController = {};
 
-  //Authentication stuff...
+  // Authentication stuff...
   FrontendController.authenticate = function(req, res, next) {
     if (req.isAuthenticated())
       return next();
@@ -29,13 +30,16 @@ module.exports = function(redis, passport) {
     });
   };
 
-  //Actual display logic
+  // Actual display logic
   FrontendController.getAllRedirects = function(req, res) {
     Redirect.getAll(function(err, redirects) {
       if (err)
         res.status(500).send(err);
       else {
-        res.status(200).render('admin/redirects', { redirects: redirects, token: req.csrfToken() });
+        res.status(200).render('admin/redirects', {
+          redirects: redirects,
+          token: req.csrfToken()
+        });
       }
     });
   };
