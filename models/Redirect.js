@@ -4,20 +4,34 @@
 */
 var urlKeyPrefix = "url_";
 var clicksKeyPrefix = "clicks_";
+var dateAddedPrefix = 'dateCreated_';
 
-function createResponseObject(key, url, clicks) {
+function createResponseObject(key, url, clicks, created) {
     return {
         key: key,
         url: url,
-        clicks: clicks
+        clicks: clicks,
+        createdAt: created
     };
 };
 
-function redisResponseToObject(key, a, b) {
-    resultUrl = a[1];
-    resultClicks = b[1];
+function redisResponseToObject(key, url, clicks, dateAdd) {
+    console.log('REDIS RESPONSE: ', key);
+    console.log('url:  ', url);
+    console.log('clicks: ', clicks);
+    console.log('created:  ', dateAdd);
+    
+    safeCheck = (x) => x !== undefined && x.length > 1 ? x[1] : null;
+    
+    var resultUrl = safeCheck(url);
+    var resultClicks = safeCheck(clicks);
     if (resultUrl && resultClicks) {
-        return createResponseObject(key, resultUrl, resultClicks);
+        return createResponseObject(
+            key,
+            resultUrl,
+            resultClicks,
+            safeCheck(dateAdd)
+        );
     } else {
         return false;
     }
@@ -36,13 +50,19 @@ module.exports = function(redis) {
             pipeline: false
         });
         redis.get(urlKeyPrefix + key);
-        redis.get(clicksKeyPrefix + key);
-        redis.incr(clicksKeyPrefix + key);
+        redis.rpush(clicksKeyPrefix + key, (new Date()).valueOf());
+        redis.llen(clicksKeyPrefix + key);
+        redis.get(dateAddedPrefix + key);
         redis.exec(function(err, result) {
             if (err) {
                 return callback(err);
             }
-            callback(false, redisResponseToObject(key, result[0], result[1]));
+            callback(false, redisResponseToObject(
+                key,
+                result[0],
+                result[1],
+                result[2]
+            ));
         });
     };
 
@@ -52,19 +72,24 @@ module.exports = function(redis) {
             pipeline: false
         });
         redis.set(urlKeyPrefix + key, url);
-        redis.set(clicksKeyPrefix + key, 0);
+        redis.set(dateAddedPrefix + key, (new Date().valueOf()))
         redis.exec(function(err, result) {
             if (err) {
                 callback(err);
                 return;
             }
-            callback(false, createResponseObject(key, url, 0));
+            callback(false, createResponseObject(key, url, []));
         });
     };
 
     Redirect.delete = function(key, callback) {
         key = key.toLowerCase();
-        redis.del(urlKeyPrefix + key, clicksKeyPrefix + key, function(err, result) {
+        redis.del(
+            urlKeyPrefix + key,
+            clicksKeyPrefix + key,
+            dateAddedPrefix + key,
+            function(err, result) {
+                // TODO improve this...
             if (err) {
                 callback(err);
                 return;
@@ -75,29 +100,31 @@ module.exports = function(redis) {
 
     Redirect.getAll = function(callback) {
         redis.keys(urlKeyPrefix + "*", function(keysError, keys) {
-            if (keysError)
+            if (keysError) {
                 return callback(keysError);
+            }
             redis.multi({
                 pipeline: false
             });
-            keys.forEach(function(element) {
+            keys.forEach(function (element) {
                 var key = baseKey(element, urlKeyPrefix);
                 redis.get(urlKeyPrefix + key);
-                redis.get(clicksKeyPrefix + key);
+                redis.llen(clicksKeyPrefix + key);
+                redis.get(dateAddedPrefix + key);
             });
             redis.exec(function(err, results) {
                 if (err) {
-                    callback(err);
-                    return;
+                    return callback(err);
                 }
                 var resultArray = [];
                 for (var i = 0; i < keys.length; i++) {
                     var key = baseKey(keys[i], urlKeyPrefix);
                     resultArray.push(redisResponseToObject(key, results[2 * i], results[2 * i + 1]));
                 }
-                resultArray.sort(function(a, b) {
-                    return a.key.localeCompare(b.key);
-                });
+                // TODO: Sort on DateAdded time.
+                // resultArray.sort(function(a, b) {
+//                     return a.key.localeCompare(b.key);
+//                 });
                 callback(false, resultArray);
             });
         });

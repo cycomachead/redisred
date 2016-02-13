@@ -34,7 +34,12 @@ app.set('view engine', 'jade');
 app.use(express.static('./public/'));
 app.use(favicon('./public/assets/favicon.png'));
 app.use(cookieParser());
-app.use(expressSession({ store: redisSessionStore, secret: sessionSecret, resave: true, saveUninitialized: true }));
+app.use(expressSession({
+    store: redisSessionStore,
+    secret: sessionSecret,
+    resave: true,
+    saveUninitialized: true
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 

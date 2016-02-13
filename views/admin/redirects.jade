@@ -29,7 +29,7 @@ block content
                 a(href=("/"+redirect.key))=redirect.key
               td.col-sm-7.td-overflow
                 a(href=redirect.url)= redirect.url
-              td.col-sm-1= redirect.clicks
+              td.redirect-list.col-sm-1= redirect.clicks
               form(action="/admin/redirect/delete", method="POST")
                 td.col-sm-2(colspan=2)
                   input(type="hidden", name="_csrf", value=token)

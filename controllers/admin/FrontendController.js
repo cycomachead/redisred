@@ -33,9 +33,12 @@ module.exports = function(redis, passport) {
   // Actual display logic
   FrontendController.getAllRedirects = function(req, res) {
     Redirect.getAll(function(err, redirects) {
-      if (err)
-        res.status(500).send(err);
-      else {
+      if (err) {
+          res.status(500).render('error', {
+              statusCode: 500,
+              errorMessage: err
+          });
+      } else {
         res.status(200).render('admin/redirects', {
           redirects: redirects,
           token: req.csrfToken()
@@ -48,14 +51,21 @@ module.exports = function(redis, passport) {
     var key = req.body.key;
     var url = req.body.url;
     if (!key || !url) {
-      res.status(400).send("You failed to supply all of the parameters.");
+      res.status(400).render('error', {
+          statusCode: 500,
+          errorMessage: "You failed to supply all of the parameters."
+     });
       return;
     }
     Redirect.create(key, url, function(err, redirect) {
-      if (err)
-        res.status(500).send(err);
-      else
-        res.redirect('/admin/redirects');
+      if (err) {
+          res.status(500).render('error', {
+              statusCode: 500,
+              errorMessage: err
+          });
+      } else {
+          res.redirect('/admin/redirects');
+      }
     });
   };
 
@@ -66,10 +76,15 @@ module.exports = function(redis, passport) {
       return;
     }
     Redirect.delete(key, function(err) {
-      if (err)
-        res.status(500).send(err);
-      else
-        res.redirect('/admin/redirects');
+        if (err) {
+            res.status(500).render('error', {
+                statusCode: 500,
+                errorMessage: err
+            });
+        } else {
+            res.redirect('/admin/redirects');
+        }
+    
     });
   };
 
