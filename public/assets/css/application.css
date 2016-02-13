@@ -1,0 +1,9 @@
+body {
+  background-color: Whitesmoke;
+}
+
+.entry-box {
+  border-radius: 10px;
+  background-color: #FFF;
+  box-shadow: 2px 2px 5px;
+}
