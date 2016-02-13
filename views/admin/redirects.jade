@@ -1,33 +1,36 @@
 extends ../layouts/layout.jade
 
 block content
-    div.container-fluid(style="max-width: 1000px;")
-      h1 #{options.APP_NAME} admin
+  div.container-fluid(style="max-width: 1000px;")
+    h1 #{options.APP_NAME} admin
+    div.table
       table.table.table-striped(style="table-layout: fixed;")
-        tr
-          th.col-sm-2 Key
-          th.col-sm-7 URL
-          th.col-sm-3(colspan=3) Clicks
-        tr
-          form(action="/admin/redirect/create", method="POST")
-            input(type="hidden", name="_csrf", value=token)
-            td.col-sm-2
-              input.form-control(name="key", placeholder="Redirect Name")
-            td.col-sm-7
-              input.form-control(name="url", placeholder="https://")
-            td.col-sm-1 —
-            td.col-sm-2(colspan=2)
-              button.btn.btn-success.btn-block Create / Update
-        each redirect in redirects
+        thead
           tr
-            td.col-sm-2
-              a(href=("/"+redirect.key))=redirect.key
-            td.col-sm-7(style="overflow: hidden; text-overflow: ellipsis; word-break: keep-all;")
-              a(href=redirect.url)= redirect.url
-            td.col-sm-1= redirect.clicks
-            form(action="/admin/redirect/delete", method="POST")
+            th.col-sm-2 Key
+            th.col-sm-7 URL
+            th.col-sm-3(colspan=3) Clicks
+        tbody
+          tr
+            form(action="/admin/redirect/create", method="POST")
+              input(type="hidden", name="_csrf", value=token)
+              td.col-sm-2
+                input.form-control(name="key", placeholder="Redirect Name")
+              td.col-sm-7
+                input.form-control(name="url", placeholder="https://")
+              td.col-sm-1 —
               td.col-sm-2(colspan=2)
-                input(type="hidden", name="_csrf", value=token)
-                input(type="hidden", name="key", value=redirect.key)
-                button.btn.btn-warning.btn-block.remove-button Remove
+                button.btn.btn-success.btn-block Create / Update
+          each redirect in redirects
+            tr
+              td.col-sm-2
+                a(href=("/"+redirect.key))=redirect.key
+              td.col-sm-7(style="overflow: hidden; text-overflow: ellipsis; word-break: keep-all;")
+                a(href=redirect.url)= redirect.url
+              td.col-sm-1= redirect.clicks
+              form(action="/admin/redirect/delete", method="POST")
+                td.col-sm-2(colspan=2)
+                  input(type="hidden", name="_csrf", value=token)
+                  input(type="hidden", name="key", value=redirect.key)
+                  button.btn.btn-warning.btn-block.remove-button Remove
       a.btn.btn-info.btn-block(href="/admin/logout") Log out
