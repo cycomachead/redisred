@@ -9,7 +9,7 @@ var adminPassword = process.env.ADMIN_PASSWORD || '123456';
 var rootRedirect = process.env.ROOT_REDIRECT || 'https://google.com';
 var apiToken = process.env.API_TOKEN || '1234567890abcdefghijklmnopqrstuvwxyz';
 
-//Includes
+// Includes
 var authentication = require('./authentication');
 var express = require('express');
 var expressSession = require('express-session');
@@ -19,16 +19,16 @@ var passport = require('passport');
 var favicon = require('serve-favicon');
 var RedisStore = require('connect-redis')(expressSession);
 
-var APPNAME = 'bjc.link'
-//Initialize auth
+
+// Initialize auth
 authentication(passport, adminUsername, adminPassword);
 
-//Connect to Redis
 var redis = new Redis(redisUrl);
 
 //Initialize the app
 var app = express();
 var redisSessionStore = new RedisStore({client: redis});
+
 app.set('views', './views');
 app.set('view engine', 'jade');
 app.use(express.static('./public/'));

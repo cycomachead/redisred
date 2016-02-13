@@ -23,9 +23,9 @@ block content
                 button.btn.btn-success.btn-block Create / Update
           each redirect in redirects
             tr
-              td.col-sm-2
+              td.col-sm-2.td-overflow
                 a(href=("/"+redirect.key))=redirect.key
-              td.col-sm-7(style="overflow: hidden; text-overflow: ellipsis; word-break: keep-all;")
+              td.col-sm-7.td-overflow
                 a(href=redirect.url)= redirect.url
               td.col-sm-1= redirect.clicks
               form(action="/admin/redirect/delete", method="POST")
