@@ -50,7 +50,8 @@ app.use(function(req, res, next) {
     res.locals = {};
   }
   res.locals.options = {
-    APP_NAME : process.env.APP_NAME || 'redisred'
+    APP_NAME : process.env.APP_NAME || 'redisred',
+    ROOT_REDIRECT: rootRedirect
   };
   
   next();
@@ -60,7 +61,10 @@ app.use('/admin', admin);
 var main = require('./routes/main.js')(rootRedirect, redirectController);
 app.use('/', main);
 app.use(function(req, res, next) {
-  res.status(404).render('404');
+  res.status(404).render('error', {
+      statusCode: 404,
+      errorMessage: 'Uh oh! It looks like that page can\'t be found. :('
+  });
 });
 
 // Start the server
