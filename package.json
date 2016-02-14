@@ -45,6 +45,9 @@
   },
   "main": "app.js",
   "engines": {
-      "node": ">=4.2.x"
+    "node": ">=4.2.x"
+  },
+  "devDependencies": {
+    "reload": "^0.7.0"
   }
 }

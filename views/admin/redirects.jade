@@ -11,10 +11,14 @@ block content
       table.table.table-striped
         thead
           tr
-            th.col-sm-2 Key
-            th.col-sm-5 URL
-            th.col-sm-1 Clicks
-            th.col-sm-2 Date Added
+            th.col-sm-2
+              a(href='?sort=key&direction=up') Key
+            th.col-sm-5
+              a(href='?sort=url&direction=up') URL
+            th.col-sm-1
+              a(href='?sort=clicks&direction=up') Clicks
+            th.col-sm-2
+              a(href='?sort=created_at&direction=down') Created At
             th.col-sm-2 Action
         tbody
           tr
@@ -35,7 +39,7 @@ block content
               td.col-sm-5.td-overflow
                 a(href=redirect.url)= redirect.url
               td.redirect-list.col-sm-1= redirect.clicks
-              td.col-sm-2 #{formattedDate(redirect.createdAt)}
+              td.col-sm-2 #{formattedDate(redirect.created_at)}
               form(action="/admin/redirect/delete", method="POST")
                 td.col-sm-2(colspan=2)
                   input(type="hidden", name="_csrf", value=token)

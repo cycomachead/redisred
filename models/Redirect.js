@@ -13,7 +13,7 @@ function createResponseObject(key, url, clicks, created) {
         key: key,
         url: url,
         clicks: clicks,
-        createdAt: new Date(+created)
+        created_at: new Date(+created)
     };
 };
 
@@ -125,11 +125,6 @@ module.exports = function(redis) {
                         )
                     );
                 }
-
-                // b - a defaults ordering to most recent first.
-                resultArray.sort(function(a, b) {
-                    return b.createdAt - a.createdAt;
-                });
                 
                 callback(false, resultArray);
             });
