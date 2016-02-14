@@ -3,10 +3,12 @@ extends ../layouts/layout.jade
 - var title = `redirects | ${options.APP_NAME}`
 
 block content
+  //- Remove the ms from the end of time stamps
+  - formattedDate = function(date) { return date.toLocaleString().replace(/(\d?\d):(\d\d):(\d\d)/, '$1:$2'); }
   div.container-fluid
     h1 #{options.APP_NAME} admin
-    div.table
-      table.table.table-striped.redirects-table
+    div.table-responsive.redirects-table
+      table.table.table-striped
         thead
           tr
             th.col-sm-2 Key
@@ -33,10 +35,10 @@ block content
               td.col-sm-5.td-overflow
                 a(href=redirect.url)= redirect.url
               td.redirect-list.col-sm-1= redirect.clicks
-              td.col-sm-2= redirect.createdAt.toLocaleString()
+              td.col-sm-2 #{formattedDate(redirect.createdAt)}
               form(action="/admin/redirect/delete", method="POST")
                 td.col-sm-2(colspan=2)
                   input(type="hidden", name="_csrf", value=token)
                   input(type="hidden", name="key", value=redirect.key)
                   button.btn.btn-warning.btn-block.remove-button Remove
-      a.btn.btn-primary.btn-block.logout-button(href="/admin/logout") Log out
+    a.btn.btn-primary.btn-block.logout-button(href="/admin/logout") Log out
