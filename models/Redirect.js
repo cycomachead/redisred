@@ -16,9 +16,9 @@ function createResponseObject(key, url, clicks, created) {
 };
 
 function redisResponseToObject(key, url, clicks, createdAt) {
-    var protectedGet = (x) => x !== undefined && x.length > 1 ? x[1] : null;
+    var protectedGet = (x) = > x !== undefined && x.length > 1 ? x[1] : null;
     var resultUrl = protectedGet(url);
-    
+
     if (resultUrl) {
         return createResponseObject(
             key,
@@ -84,12 +84,12 @@ module.exports = function(redis) {
             dateAddedPrefix + key,
             function(err, result) {
                 // TODO improve this...
-            if (err) {
-                callback(err);
-                return;
-            }
-            callback( !! err);
-        });
+                if (err) {
+                    callback(err);
+                    return;
+                }
+                callback( !! err);
+            });
     };
 
     Redirect.getAll = function(callback) {
@@ -100,7 +100,7 @@ module.exports = function(redis) {
             redis.multi({
                 pipeline: false
             });
-            keys.forEach(function (element) {
+            keys.forEach(function(element) {
                 var key = baseKey(element, urlKeyPrefix);
                 redis.get(urlKeyPrefix + key);
                 redis.llen(clicksKeyPrefix + key);
@@ -114,18 +114,18 @@ module.exports = function(redis) {
                 for (var i = 0; i < keys.length; i++) {
                     var key = baseKey(keys[i], urlKeyPrefix);
                     resultArray.push(
-                      redisResponseToObject(
-                        key,
-                        results[3 * i],     // URL
-                        results[3 * i + 1], // Len
-                        results[3 * i + 2]  // Created
-                      )
+                        redisResponseToObject(
+                            key,
+                            results[3 * i], // URL
+                            results[3 * i + 1], // Len
+                            results[3 * i + 2] // Created
+                        )
                     );
                 }
                 // TODO: Sort on DateAdded time.
                 // resultArray.sort(function(a, b) {
-//                     return a.key.localeCompare(b.key);
-//                 });
+                //                     return a.key.localeCompare(b.key);
+                //                 });
                 callback(false, resultArray);
             });
         });
