@@ -48,7 +48,7 @@ module.exports = function(redis) {
         redis.get(urlKeyPrefix + key);
         redis.llen(clicksKeyPrefix + key);
         redis.get(dateAddedPrefix + key);
-        redis.rpush(clicksKeyPrefix + key, (new Date()).valueOf());
+        redis.lpush(clicksKeyPrefix + key, (new Date()).valueOf());
         redis.exec(function(err, result) {
             if (err) {
                 return callback(err);
