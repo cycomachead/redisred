@@ -7,7 +7,7 @@
     "start-redis": "redis-server > /dev/null & echo $! > redis.pid",
     "stop-redis": "kill -TERM $(cat redis.pid) && rm redis.pid",
     "create-config": "cp .env.config .env",
-    "start": "node app.js"
+    "start": "npm run start-redis && node app.js"
   },
   "repository": {
     "type": "git",
