@@ -50,9 +50,9 @@ module.exports = function(redis) {
             pipeline: false
         });
         redis.get(urlKeyPrefix + key);
-        redis.rpush(clicksKeyPrefix + key, (new Date()).valueOf());
         redis.llen(clicksKeyPrefix + key);
         redis.get(dateAddedPrefix + key);
+        redis.rpush(clicksKeyPrefix + key, (new Date()).valueOf());
         redis.exec(function(err, result) {
             if (err) {
                 return callback(err);
@@ -119,7 +119,14 @@ module.exports = function(redis) {
                 var resultArray = [];
                 for (var i = 0; i < keys.length; i++) {
                     var key = baseKey(keys[i], urlKeyPrefix);
-                    resultArray.push(redisResponseToObject(key, results[2 * i], results[2 * i + 1]));
+                    resultArray.push(
+                      redisResponseToObject(
+                        key,
+                        results[3 * i],     // URL
+                        results[3 * i + 1], // Len
+                        results[3 * i + 2]  // Created
+                      )
+                    );
                 }
                 // TODO: Sort on DateAdded time.
                 // resultArray.sort(function(a, b) {

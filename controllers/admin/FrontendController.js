@@ -72,7 +72,10 @@ module.exports = function(redis, passport) {
   FrontendController.deleteRedirect = function(req, res) {
     var key = req.body.key;
     if (!key) {
-      res.status(400).send("You failed to supply all of the parameters.");
+      res.status(400).render('error', {
+        statusCode: 400,
+        errorMessage: 'You failed to supply all of the parameters.'
+      });
       return;
     }
     Redirect.delete(key, function(err) {
