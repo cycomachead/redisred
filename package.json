@@ -1,5 +1,5 @@
 {
-  "name": "redisred",
+  "name": "bjc.link",
   "version": "0.1.0",
   "description": "A small Redis-based URL Redirector",
   "private": true,
@@ -11,19 +11,22 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Detry322/redisred.git"
+    "url": "https://github.com/cycomachead/bjc.link.git"
   },
   "keywords": [
     "Redis",
     "Node",
-    "Express"
+    "Express",
+    "url-shortener",
+    "redirect",
+    "bitly"
   ],
   "author": "Jack Serrino",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Detry322/redisred/issues"
+    "url": "https://github.com/cycomachead/bjc.link/issues"
   },
-  "homepage": "https://github.com/Detry322/redisred",
+  "homepage": "https://github.com/cycomachead/bjc.link",
   "dependencies": {
     "body-parser": "^1.13.2",
     "connect-redis": "^2.4.0",

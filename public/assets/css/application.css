@@ -49,6 +49,7 @@ body {
   border-width: 2px;
 }
 
+.logout-button,
 .form-box button.login {
   margin-top: 15px;
   padding: 8px;

@@ -11,26 +11,20 @@ function createResponseObject(key, url, clicks, created) {
         key: key,
         url: url,
         clicks: clicks,
-        createdAt: created
+        createdAt: new Date(created)
     };
 };
 
-function redisResponseToObject(key, url, clicks, dateAdd) {
-    console.log('REDIS RESPONSE: ', key);
-    console.log('url:  ', url);
-    console.log('clicks: ', clicks);
-    console.log('created:  ', dateAdd);
+function redisResponseToObject(key, url, clicks, createdAt) {
+    var protectedGet = (x) => x !== undefined && x.length > 1 ? x[1] : null;
+    var resultUrl = protectedGet(url);
     
-    safeCheck = (x) => x !== undefined && x.length > 1 ? x[1] : null;
-    
-    var resultUrl = safeCheck(url);
-    var resultClicks = safeCheck(clicks);
-    if (resultUrl && resultClicks) {
+    if (resultUrl) {
         return createResponseObject(
             key,
             resultUrl,
-            resultClicks,
-            safeCheck(dateAdd)
+            protectedGet(clicks),
+            protectedGet(createdAt)
         );
     } else {
         return false;
