@@ -125,10 +125,12 @@ module.exports = function(redis) {
                         )
                     );
                 }
-                // TODO: Sort on DateAdded time.
-                // resultArray.sort(function(a, b) {
-                //                     return a.key.localeCompare(b.key);
-                //                 });
+
+                // b - a defaults ordering to most recent first.
+                resultArray.sort(function(a, b) {
+                    return b.createdAt - a.createdAt;
+                });
+                
                 callback(false, resultArray);
             });
         });
