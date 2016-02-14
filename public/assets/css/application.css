@@ -1,9 +1,10 @@
 body {
-  background-color: Whitesmoke;
+  background-color: rgb(235, 235, 235);
 }
 
 .main-content {
-  margin: 10% 3%;
+  margin: 5% 2%;
+
 }
 
 .title-header {
@@ -24,12 +25,17 @@ body {
   display: none;
 }
 
+/* Basic "box" styling */
+.login-container,
+.redirects-table {
+  border-radius: 10px;
+  border: 1.5px solid #CCC;
+}
+
 .login-container {
     position: relative;
     text-align: center;
     background: #FFF;
-    border-radius: 10px;
-    border: 1.5px solid #CCC;
 }
 
 .login-logo {
@@ -53,6 +59,7 @@ body {
 .form-box button.login {
   margin-top: 15px;
   padding: 8px;
+  font-weight: bold;
   font-size: 1.2rem;
   font-variant: small-caps;
 }

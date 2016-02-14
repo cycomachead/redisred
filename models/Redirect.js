@@ -6,17 +6,19 @@ var urlKeyPrefix = "url_";
 var clicksKeyPrefix = "clicks_";
 var dateAddedPrefix = 'dateCreated_';
 
+// Note that Redis returns string values for all items
+// JS Date is expecting an integer.
 function createResponseObject(key, url, clicks, created) {
     return {
         key: key,
         url: url,
         clicks: clicks,
-        createdAt: new Date(created)
+        createdAt: new Date(+created)
     };
 };
 
 function redisResponseToObject(key, url, clicks, createdAt) {
-    var protectedGet = (x) = > x !== undefined && x.length > 1 ? x[1] : null;
+    var protectedGet = (x) => x !== undefined && x.length > 1 ? x[1] : null;
     var resultUrl = protectedGet(url);
 
     if (resultUrl) {
@@ -61,18 +63,19 @@ module.exports = function(redis) {
     };
 
     Redirect.create = function(key, url, callback) {
+        var createdAt = (new Date().valueOf());
         key = key.toLowerCase();
         redis.multi({
             pipeline: false
         });
         redis.set(urlKeyPrefix + key, url);
-        redis.set(dateAddedPrefix + key, (new Date().valueOf()))
+        redis.set(dateAddedPrefix + key, createdAt)
         redis.exec(function(err, result) {
             if (err) {
                 callback(err);
                 return;
             }
-            callback(false, createResponseObject(key, url, []));
+            callback(false, createResponseObject(key, url, 0, createdAt));
         });
     };
 

@@ -31,6 +31,7 @@ var redisSessionStore = new RedisStore({client: redis});
 
 app.set('views', './views');
 app.set('view engine', 'jade');
+
 app.use(express.static('./public/'));
 app.use(favicon('./public/assets/favicon.png'));
 app.use(cookieParser());
@@ -50,6 +51,9 @@ var redirectController = require('./controllers/RedirectController')(redis);
 
 // Initialize routes
 var admin = require('./routes/admin.js')(frontendController, apiController);
+var main = require('./routes/main.js')(rootRedirect, redirectController);
+
+// Middleware for Jade Views
 app.use(function(req, res, next) {
   if (!res.locals) {
     res.locals = {};
@@ -63,8 +67,8 @@ app.use(function(req, res, next) {
 });
 
 app.use('/admin', admin);
-var main = require('./routes/main.js')(rootRedirect, redirectController);
 app.use('/', main);
+
 app.use(function(req, res, next) {
   res.status(404).render('error', {
       statusCode: 404,
@@ -74,7 +78,7 @@ app.use(function(req, res, next) {
 
 // Start the server
 console.log('Connecting to redis...');
-redis.ping(function(err){
+redis.ping(function (err) {
   if (!err) {
     console.log('Connection successful. Server listening on port ' + port);
     app.listen(port);
