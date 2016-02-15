@@ -68,11 +68,20 @@ var redirectController = require('./controllers/RedirectController')(redis);
 var admin = require('./routes/admin.js')(frontendController, apiController);
 var main = require('./routes/main.js')(rootRedirect, redirectController);
 
+// send a basic page view before anything else executes
+// This tracks both short codes and admin pages.
 if (APP_CONFIG.googleAnalyticsId) {
     var ua = require('universal-analytics');
     app.use(ua.middleware(APP_CONFIG.googleAnalyticsId, { 
         cookieName: '_ga'
     }));
+    app.use(function (req, res, next) {
+        if (req.visitor) {
+            req.visitor.pageview(req.url).send();
+        }
+        
+        next();
+    });
 }
 
 // Middleware for Jade Views
