@@ -1,16 +1,28 @@
 // Load the dotfiles.
 require('dotenv').load();
 
+// TODO: Clean this up.
+var APP_CONFIG = {
+    googleAnalyticsId: process.env.GOOGLE_ANALYTICS_ID,
+    passportStrategies: {
+        local: {
+            
+        },
+        google: {
+            
+        }
+    }
+};
 var port = process.env.PORT || 3000;
 var redisUrl = process.env.REDIS_URL || 'redis://127.0.0.1:6379/0';
 var sessionSecret = process.env.SESSION_SECRET || 'this is really secure';
 var adminUsername = process.env.ADMIN_USERNAME || 'admin';
 var adminPassword = process.env.ADMIN_PASSWORD || '123456';
-var rootRedirect = process.env.ROOT_REDIRECT || 'https://google.com';
+var rootRedirect = process.env.ROOT_REDIRECT || `/admin`;
 var apiToken = process.env.API_TOKEN || '1234567890abcdefghijklmnopqrstuvwxyz';
 
+
 // Includes
-var authentication = require('./authentication');
 var express = require('express');
 var expressSession = require('express-session');
 var cookieParser = require('cookie-parser');
@@ -19,6 +31,9 @@ var passport = require('passport');
 var favicon = require('serve-favicon');
 var RedisStore = require('connect-redis')(expressSession);
 
+var authentication = require('./authentication');
+// REFACTOR: Make the above require passport and return the instance.
+// var passport = authentication(APP_CONFIG);
 
 // Initialize auth
 authentication(passport, adminUsername, adminPassword);
@@ -52,6 +67,13 @@ var redirectController = require('./controllers/RedirectController')(redis);
 // Initialize routes
 var admin = require('./routes/admin.js')(frontendController, apiController);
 var main = require('./routes/main.js')(rootRedirect, redirectController);
+
+if (APP_CONFIG.googleAnalyticsId) {
+    var ua = require('universal-analytics');
+    app.use(ua.middleware(APP_CONFIG.googleAnalyticsId, { 
+        cookieName: '_ga'
+    }));
+}
 
 // Middleware for Jade Views
 app.use(function(req, res, next) {
