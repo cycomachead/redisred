@@ -1,10 +1,19 @@
 /*
     Redirects -- Redis Model
     
+    
+    DATA MODEL:
+    SHORT_URL: redis hash
+        url <string, full URL> created_at <date in JS epoch time>
+        // FUTURE title <string> 
 */
+
+// TODO: Migrate these keys to hash and rename them
 var urlKeyPrefix = "url_";
-var clicksKeyPrefix = "clicks_";
 var dateAddedPrefix = 'dateCreated_';
+
+var clicksKeyPrefix = "clicks_";
+
 
 // Note that Redis returns string values for all items
 // JS Date is expecting an integer.
