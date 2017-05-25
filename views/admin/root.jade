@@ -25,6 +25,8 @@ block content
                   name="password", type="password",
                   placeholder="Password")
               button.login.btn.btn-primary.btn-block Log in
+            a.login.btn.btn-primary.btn-block(href="/auth/google")
+                | Log in with Google
       div.col-md-3
         script if (window.location.hash.length) document.getElementById("alert").style.display = "block";
 
