@@ -12,21 +12,21 @@ block content
           img.login-logo(src='/assets/img/bjc.png')
           h2.card-title Login
           #alert.alert.alert-danger.flash Wrong username or password.
-          div.form-box
-            form(action="/admin/login", method="POST")
-              div.form-group
-                input.form-control(
-                  id="username",
-                  name="username",
-                  placeholder="Username")
-              div.form-group
-                input.form-control(
-                  id="password",
-                  name="password", type="password",
-                  placeholder="Password")
-              button.login.btn.btn-primary.btn-block Log in
-            a.login.btn.btn-primary.btn-block(href="/auth/google")
-                | Log in with Google
+          //- div.form-box
+          //-   form(action="/admin/login", method="POST")
+          //-     div.form-group
+          //-       input.form-control(
+          //-         id="username",
+          //-         name="username",
+          //-         placeholder="Username")
+          //-     div.form-group
+          //-       input.form-control(
+          //-         id="password",
+          //-         name="password", type="password",
+          //-         placeholder="Password")
+          //-     button.login.btn.btn-primary.btn-block Log in
+          a.login.btn.btn-primary.btn-block(href="/auth/google")
+              | Log in with Google
       div.col-md-3
         script if (window.location.hash.length) document.getElementById("alert").style.display = "block";
 
