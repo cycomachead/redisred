@@ -1,9 +1,11 @@
-var process = require('process')
-var LocalStrategy = require('passport-local').Strategy;
 var GoogleStrategy = require('passport-google-oauth20').Strategy;
 
+const AuthorizationModel = require('./models/AuthorizedUsers');
 
-module.exports = function(passport, adminUsername, adminPassword) {
+module.exports = function(passport, redis) {
+  console.log('loading auth  ', redis);
+  const Authorization = AuthorizationModel(redis);
+console.log( 'Auth model..', AuthorizationModel);
 
   passport.serializeUser(function(username, done) {
     done(null, username);
@@ -13,17 +15,6 @@ module.exports = function(passport, adminUsername, adminPassword) {
     done(null, username);
   });
 
-  passport.use(new LocalStrategy({
-      usernameField: 'username',
-      passwordField: 'password',
-    }, function(username, password, done) {
-      if (adminUsername == username && adminPassword == password)
-        done(null, username);
-      else 
-        done(null, false, { message: "Incorrect Username or Password"} );
-    }
-  ));
-
   passport.use(new GoogleStrategy({
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
@@ -31,11 +22,12 @@ module.exports = function(passport, adminUsername, adminPassword) {
       passReqToCallback: true
     },
     function(req, accessToken, refreshToken, profile, cb) {
-        console.log('CALLBACK CALLED');
-        console.log(req);
-        console.log('Google Strategy callback');
-        console.log(profile);
-        cb(null, profile);
+        // TODO: Perhaps this could be more robust.
+        const email = profile.emails[0] && profile.emails[0].value;
+        Authorization.isAuthorized(email, (err, resp) => {
+            console.log('AUTH CALLBACK   ', resp);
+            cb(null, profile);
+        });
     }
   ));
 };

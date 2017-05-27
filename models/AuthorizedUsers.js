@@ -16,9 +16,12 @@ module.exports = (redis) => {
     redis.sismember(AUTHORIZATIONS, key, (err, result) => {
       if (err) {
         callback(err, false);
+      } else if (result != 1) {
+          callback(new Error('User is not authorized'), false);
+      } else {
+          // TODO: Return some user info?
+          callback(null, true);
       }
-
-      callback(null, result)
     });
   }
 

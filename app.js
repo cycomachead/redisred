@@ -5,19 +5,15 @@ require('dotenv').load();
 var APP_CONFIG = {
   googleAnalyticsId: process.env.GOOGLE_ANALYTICS_ID,
   passportStrategies: {
-    local: {
-
-    },
     google: {
 
     }
   }
 };
+
 var port = process.env.PORT || 3000;
 var redisUrl = process.env.REDIS_URL || 'redis://127.0.0.1:6379/0';
 var sessionSecret = process.env.SESSION_SECRET || 'this is really secure';
-var adminUsername = process.env.ADMIN_USERNAME || 'admin';
-var adminPassword = process.env.ADMIN_PASSWORD || '123456';
 var rootRedirect = process.env.ROOT_REDIRECT || `/admin`;
 var apiToken = process.env.API_TOKEN || '1234567890abcdefghijklmnopqrstuvwxyz';
 
@@ -30,14 +26,8 @@ var passport = require('passport');
 var favicon = require('serve-favicon');
 var RedisStore = require('connect-redis')(session);
 
-var authentication = require('./authentication');
-// REFACTOR: Make the above require passport and return the instance.
-// var passport = authentication(APP_CONFIG);
-
-// Initialize auth
-authentication(passport, adminUsername, adminPassword);
-
-var redis = new Redis(redisUrl);
+var redis = Redis(redisUrl);
+var authentication = require('./authentication')(passport, redis);
 
 //Initialize the app
 var app = express();
@@ -98,10 +88,11 @@ app.use(function(req, res, next) {
   next();
 });
 
+// TODO: Move to auth file?
 app.get(
   '/auth/google',
   passport.authenticate('google', {
-    scope: ['https://www.googleapis.com/auth/plus.login']
+    scope: ['profile', 'email']
   })
 );
 
@@ -109,8 +100,7 @@ app.get(
   '/auth/google/callback', 
   passport.authenticate('google'),
   function(req, res) {
-    console.log('success callback');
-    // Successful authentication, redirect home.
+    // TODO: Better error handling.
     res.redirect('/admin');
   }
 );
@@ -132,7 +122,6 @@ redis.ping(function(err) {
     console.log('Connection successful. Server listening on port ' + port);
     app.listen(port);
   } else {
-    console.error('An error occurred.');
     console.error(err);
     process.exit(1);
   }
