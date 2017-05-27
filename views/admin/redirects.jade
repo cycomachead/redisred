@@ -9,40 +9,40 @@ block content
     h1 #{options.APP_NAME} admin
     div.table-responsive.redirects-table
       table.table.table-striped
-        thead
+        thead.thead-default
           tr
-            th.col-sm-2
+            th(width="20%")
               a(href='?sort=key&direction=up') Key
-            th.col-sm-5
+            th(width="50%")
               a(href='?sort=url&direction=up') URL
-            th.col-sm-1
+            th(width="8%")
               a(href='?sort=clicks&direction=up') Clicks
-            th.col-sm-2
+            th(width="12%")
               a(href='?sort=created_at&direction=down') Created At
-            th.col-sm-2 Action
+            th(width="10%") Action
         tbody
           tr
             form(action="/admin/redirect/create", method="POST")
               input(type="hidden", name="_csrf", value=token)
-              td.col-sm-2
+              td
                 input.form-control(name="key", placeholder="Redirect")
-              td.col-sm-5
+              td
                 input.form-control(name="url", placeholder="https://")
-              td.col-sm-1 —
-              td.col-sm-2 —
-              td.col-sm-2(colspan=2)
+              td —
+              td —
+              td(colspan=2)
                 button.btn.btn-success.btn-block Create / Update
           each redirect in redirects
             tr
-              td.col-sm-2.td-overflow(style='vertical-align: middle')
+              td.td-overflow(style='vertical-align: middle')
                 a(href=("/"+redirect.key))=redirect.key
-              td.col-sm-5.td-overflow
+              td.td-overflow
                 a(href=redirect.url)= redirect.url
-              td.redirect-list.col-sm-1= redirect.clicks
-              td.col-sm-2 #{formattedDate(redirect.created_at)}
+              td.redirect-list= redirect.clicks
+              td #{formattedDate(redirect.created_at)}
               form(action="/admin/redirect/delete", method="POST")
-                td.col-sm-2(colspan=2)
+                td(colspan=2)
                   input(type="hidden", name="_csrf", value=token)
                   input(type="hidden", name="key", value=redirect.key)
-                  button.btn.btn-warning.btn-block.remove-button Remove
+                  button.btn.btn-danger.btn-block.remove-button Remove
     a.btn.btn-primary.btn-block.logout-button(href="/admin/logout") Log out
