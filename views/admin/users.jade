@@ -1,0 +1,32 @@
+extends ../layouts/layout.jade
+
+- var title = `Users | ${options.APP_NAME}`
+
+block content
+  //- Remove the ms from the end of time stamps
+  div.container-fluid
+    h1 Manage Users | #{options.APP_NAME}
+    div.table-responsive.redirects-table
+      table.table.table-striped
+        thead
+          tr
+            th(width="85%")
+              a(href='?sort=key&direction=up') User Email
+            th(width="15%") Action
+        tbody
+          tr
+            form(action="/admin/authorization/create", method="POST")
+              input(type="hidden", name="_csrf", value=token)
+              td
+                input.form-control(name="email", placeholder="email address")
+              td
+                button.btn.btn-success.btn-block Create
+          each user in users
+            tr
+              td.td-overflow(style='vertical-align: middle')
+                =user
+              form(action="/admin/authoization/delete", method="POST")
+                td
+                  input(type="hidden", name="_csrf", value=token)
+                  input(type="hidden", name="email", value=user)
+                  button.btn.btn-warning.btn-block.remove-button Remove

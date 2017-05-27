@@ -22,8 +22,8 @@ module.exports = (redis) => {
     });
   }
 
-  AuthorizedUsers.addAuthorization = (key, callback) => {
-    redis.sadd(AUTHORIZATIONS, key (err, result) => {
+  AuthorizedUsers.create = (key, callback) => {
+    redis.sadd(AUTHORIZATIONS, key, (err, result) => {
       if (err) {
         callback(err, false);
       }
@@ -32,15 +32,24 @@ module.exports = (redis) => {
     });
   }
 
-  AuthorizedUsers.removeAuthorization = (key, callback) => {
-    redis.srem(AUTHORIZATIONS, key (err, result) => {
+  AuthorizedUsers.delete = (key, callback) => {
+    redis.srem(AUTHORIZATIONS, key, (err, result) => {
       if (err) {
         callback(err, false);
       }
       
       callback(null, result)
-    })
+    });
   }
 
+  AuthorizedUsers.allAuthorizations = (callback) => {
+    redis.smembers(AUTHORIZATIONS, (err, result) => {
+      if (err) {
+        callback(err, false);
+      }
+      
+      callback(null, result)
+    });
+  }
   return AuthorizedUsers;
 }

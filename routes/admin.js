@@ -14,12 +14,47 @@ module.exports = function(frontend, api) {
   var frontendRouter = express.Router();
   frontendRouter.use(bodyParser.urlencoded({ extended: false }));
   frontendRouter.get('/', frontend.showLogin);
-  frontendRouter.post('/login', frontend.login);
+  // frontendRouter.post('/login', frontend.login);
   frontendRouter.get('/logout', frontend.logout);
-  frontendRouter.get('/redirects', csrfProtection, frontend.authenticate, frontend.getAllRedirects);
-  frontendRouter.post('/redirect/create', csrfProtection, frontend.authenticate, frontend.createRedirect);
-  frontendRouter.post('/redirect/delete', csrfProtection, frontend.authenticate, frontend.deleteRedirect);
 
+  frontendRouter.get(
+      '/redirects',
+      csrfProtection,
+      frontend.authenticate,
+      frontend.getAllRedirects
+  );
+  frontendRouter.post(
+      '/redirect/create',
+      csrfProtection,
+      frontend.authenticate,
+      frontend.createRedirect
+  );
+  frontendRouter.post(
+      '/redirect/delete',
+      csrfProtection,
+      frontend.authenticate,
+      frontend.deleteRedirect
+  );
+
+  frontendRouter.get(
+      '/users',
+      csrfProtection,
+      frontend.authenticate,
+      frontend.getAllUsers
+  );
+  frontendRouter.post(
+      '/authorization/create',
+      csrfProtection,
+      frontend.authenticate,
+      frontend.addAuthorization
+  );
+  frontendRouter.post(
+      '/authorization/delete',
+      csrfProtection,
+      frontend.authenticate,
+      frontend.deleteAuthorization
+  );
+  
   var router = express.Router();
   router.use('/api', apiRouter);
   router.use('/', frontendRouter);
