@@ -1,3 +1,6 @@
+var _ = require('lodash');
+var moment = require('moment');
+
 var redirectModel = require('../../models/Redirect');
 var authModel = require('../../models/AuthorizedUsers');
 
@@ -88,9 +91,10 @@ module.exports = function(redis) {
           errorMessage: err
         });
       } else {
-        res.status(200).json(
-          redirect.clicks.map((c) => new Date(+c))
-        );
+        result = redirect.clicks.map((c) => new Date(+c))
+        result = _.countBy(result, d => moment(d).startOf('day').format());
+        // result = _.forEach(result, (d, k) =>d.length)
+        res.status(200).json(result);
       }
     });
   };
