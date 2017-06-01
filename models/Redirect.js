@@ -31,14 +31,20 @@ function createResponseObject(key, url, clicks, created) {
     };
 };
 
+var protectedGet = function (x) {
+    if (x.constructor == Array && x[0] == null && x.length > 1) {
+        return x[1];
+    }
+    return x;
+}
+
 function redisResponseToObject(key, url, clicks, createdAt) {
-    var protectedGet = (x) => x !== undefined && x.length > 1 ? x[1] : null;
     var resultUrl = protectedGet(url);
 
     if (resultUrl) {
         return createResponseObject(
             key,
-            resultUrl,
+            protectedGet(resultUrl),
             protectedGet(clicks),
             protectedGet(createdAt)
         );
@@ -84,11 +90,15 @@ module.exports = function(redis) {
             if (err) {
                 return callback(err);
             }
+            // Returns [
+            // [ null, [ 'http://twitter.com', '1496302478412' ] ],
+            // [ null, [ '1496302970143', '1496302482715' ] ] 
+            // ]
             callback(false, redisResponseToObject(
                 key,
-                result[0],
-                result[2],
-                result[1]
+                result[0][1][0], // URL
+                result[1][1],    // clicks list
+                result[0][1][1]  // created_at
             ));
         });
     };

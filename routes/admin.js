@@ -35,6 +35,13 @@ module.exports = function(frontend, api) {
       frontend.authenticate,
       frontend.deleteRedirect
   );
+  
+  frontendRouter.get(
+      '/view/:redirect',
+      csrfProtection,
+      frontend.authenticate,
+      frontend.viewRedirect
+  );
 
   frontendRouter.get(
       '/users',

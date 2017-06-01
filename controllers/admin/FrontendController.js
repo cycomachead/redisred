@@ -58,6 +58,27 @@ module.exports = function(redis) {
     });
   };
 
+  FrontendController.viewRedirect = function(req, res) {
+    const key = req.params.redirect;
+    Redirect.get(key, function(err, redirect) {
+      if (err) {
+        res.status(500).render('error', {
+          statusCode: 500,
+          errorMessage: err
+        });
+      } else {
+        res.status(200).render('admin/view', {
+          key: key,
+          url: redirect.url,
+          created_at: redirect.created_at,
+          count: redirect.clicks.length,
+          visits: redirect.clicks.map((c) => new Date(+c)),
+          token: req.csrfToken()
+        });
+      }
+    });
+  };
+  
   FrontendController.createRedirect = function(req, res) {
     var key = req.body.key;
     var url = req.body.url;
