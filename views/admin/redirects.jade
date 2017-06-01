@@ -35,7 +35,7 @@ block content
           each redirect in redirects
             tr
               td.td-overflow(style='vertical-align: middle')
-                a(href=("/"+redirect.key))=redirect.key
+                a(href=("/admin/view/"+redirect.key))=redirect.key
               td.td-overflow
                 a(href=redirect.url)= redirect.url
               td.redirect-list= redirect.clicks

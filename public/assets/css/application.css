@@ -1,6 +1,6 @@
 body {
-  background-color: rgb(235, 235, 235);
-}
+/*  background-color: rgb(235, 235, 235);
+*/}
 
 .main-content {
   margin: 5% 2%;
@@ -64,3 +64,8 @@ body {
   font-variant: small-caps;
 }
 
+.clicksChart {
+  height: 350px;
+  width: 80%; 
+  margin: 1em auto;
+}
