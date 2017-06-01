@@ -29,3 +29,10 @@ block content
       each visit in visits
         p
           =visit
+    div#chart(style="height: 300px")
+    script(src="/assets/js/Chart.bundle.min.js")
+    script(src="/assets/js/chartkick.js")
+    script(type='text/javascript').
+      window.onload = function () {
+         new Chartkick.LineChart("chart", location.pathname + "/visits")
+      }

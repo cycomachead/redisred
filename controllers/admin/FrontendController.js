@@ -79,6 +79,22 @@ module.exports = function(redis) {
     });
   };
   
+  FrontendController.visitLog = function(req, res) {
+    const key = req.params.redirect;
+    Redirect.get(key, function(err, redirect) {
+      if (err) {
+        res.status(500).render('error', {
+          statusCode: 500,
+          errorMessage: err
+        });
+      } else {
+        res.status(200).json(
+          redirect.clicks.map((c) => new Date(+c))
+        );
+      }
+    });
+  };
+  
   FrontendController.createRedirect = function(req, res) {
     var key = req.body.key;
     var url = req.body.url;

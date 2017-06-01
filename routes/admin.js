@@ -44,6 +44,13 @@ module.exports = function(frontend, api) {
   );
 
   frontendRouter.get(
+      '/view/:redirect/visits',
+      csrfProtection,
+      frontend.authenticate,
+      frontend.visitLog
+  );
+
+  frontendRouter.get(
       '/users',
       csrfProtection,
       frontend.authenticate,
