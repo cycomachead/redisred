@@ -2,10 +2,15 @@
     Redirects -- Redis Model
     
     
-    DATA MODEL:
-    SHORT_URL: redis hash
-        url <string, full URL> created_at <date in JS epoch time>
-        // FUTURE title <string> 
+    TODO DATA MODEL:
+    redirect:SHORT_URL =>
+    redirect_info:SHORT_URL => {
+       created_at =>
+       title =>
+       created_by =>
+    }
+
+    vists:SHORT_URL: [timestamps]
 */
 
 // TODO: Migrate these keys to hash and rename them
@@ -49,15 +54,32 @@ function baseKey(key, prefix) {
 module.exports = function(redis) {
     var Redirect = {};
 
-    Redirect.get = function(key, callback) {
+    Redirect.visit = function(key, callback) {
         key = key.toLowerCase();
         redis.multi({
             pipeline: false
         });
         redis.get(urlKeyPrefix + key);
-        redis.llen(clicksKeyPrefix + key);
-        redis.get(dateAddedPrefix + key);
         redis.lpush(clicksKeyPrefix + key, (new Date()).valueOf());
+        redis.exec(function(err, result) {
+            if (err) {
+                return callback(err);
+            }
+            callback(null, result[0] && result[0][1]);
+        });
+    };
+    
+    
+    Redirect.get = function(key, callback) {
+        key = key.toLowerCase();
+        redis.multi({
+            pipeline: false
+        });
+        redis.mget(
+            urlKeyPrefix + key,
+            dateAddedPrefix + key
+        );
+        redis.lrange(clicksKeyPrefix + key, 0, -1);
         redis.exec(function(err, result) {
             if (err) {
                 return callback(err);
@@ -65,8 +87,8 @@ module.exports = function(redis) {
             callback(false, redisResponseToObject(
                 key,
                 result[0],
-                result[1],
-                result[2]
+                result[2],
+                result[1]
             ));
         });
     };
@@ -135,7 +157,7 @@ module.exports = function(redis) {
                     );
                 }
                 
-                callback(false, resultArray);
+                callback(null, resultArray);
             });
         });
     };

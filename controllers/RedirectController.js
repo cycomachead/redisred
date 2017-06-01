@@ -6,7 +6,7 @@ module.exports = function(redis) {
 
     RedirectController.redirect = function(req, res) {
         var redirectName = req.params.redirect_name;
-        Redirect.get(redirectName, function(err, redirect) {
+        Redirect.visit(redirectName, function(err, redirect) {
             if (err) {
                 res.status(500).render('error', {
                     statusCode: 500,
@@ -19,7 +19,7 @@ module.exports = function(redis) {
                 });
             }
             else {
-                res.redirect(redirect.url);
+                res.redirect(redirect);
             }
         });
     };

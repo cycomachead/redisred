@@ -8,7 +8,8 @@ var APP_CONFIG = {
     google: {
 
     }
-  }
+  },
+  adminEmail: process.env.ADMIN_EMAIL
 };
 
 var port = process.env.PORT || 3000;
@@ -51,8 +52,12 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Initialize controllers
-var frontendController = require('./controllers/admin/FrontendController')(redis, passport);
-var apiController = require('./controllers/admin/APIController')(redis, apiToken);
+var frontendController = require('./controllers/admin/FrontendController')(
+  redis, passport
+);
+var apiController = require('./controllers/admin/APIController')(
+  redis, apiToken
+);
 var redirectController = require('./controllers/RedirectController')(redis);
 
 // Initialize routes
@@ -97,14 +102,13 @@ app.get(
 );
 
 app.get(
-  '/auth/google/callback', 
-  passport.authenticate('google'),
-  function(req, res) {
-    // TODO: Better error handling.
-    res.redirect('/admin');
-  }
+  '/auth/google/callback',
+  passport.authenticate(
+    'google',
+    { successRedirect: '/admin/root', failureRedirect: '/admin' }
+  )
 );
-  
+
 app.use('/admin', admin);
 app.use('/', main);
 

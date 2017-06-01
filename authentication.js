@@ -3,10 +3,7 @@ var GoogleStrategy = require('passport-google-oauth20').Strategy;
 const AuthorizationModel = require('./models/AuthorizedUsers');
 
 module.exports = function(passport, redis) {
-  console.log('loading auth  ', redis);
   const Authorization = AuthorizationModel(redis);
-console.log( 'Auth model..', AuthorizationModel);
-
   passport.serializeUser(function(username, done) {
     done(null, username);
   });
@@ -22,12 +19,22 @@ console.log( 'Auth model..', AuthorizationModel);
       passReqToCallback: true
     },
     function(req, accessToken, refreshToken, profile, cb) {
-        // TODO: Perhaps this could be more robust.
-        const email = profile.emails[0] && profile.emails[0].value;
-        Authorization.isAuthorized(email, (err, resp) => {
-            console.log('AUTH CALLBACK   ', resp);
-            cb(null, profile);
-        });
+      // TODO: Perhaps this could be more robust.
+      const email = profile.emails[0] && profile.emails[0].value;
+      if (email === process.env.ADMIN_EMAIL) {
+          cb(null, true);
+          return;
+      }
+
+      Authorization.isAuthorized(email, (err, resp) => {
+        if (err) {
+          cb(err, false);
+        } else if (resp == 1) {
+          cb(null, profile);
+        } else {
+          cb(false);
+        }
+      });
     }
   ));
 };

@@ -161,7 +161,7 @@ module.exports = function(redis) {
       });
       return;
     }
-    Authorization.deleteUser(email, function(err) {
+    Authorization.delete(email, function(err) {
       if (err) {
         res.status(500).render('error', {
           statusCode: 500,
