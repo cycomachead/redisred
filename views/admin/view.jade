@@ -34,5 +34,7 @@ block content
     script(src="/assets/js/chartkick.js")
     script(type='text/javascript').
       window.onload = function () {
-         new Chartkick.LineChart("chart", location.pathname + "/visits")
+         new Chartkick.LineChart(
+             "chart",
+             location.pathname + "/visits" + location.search)
       }

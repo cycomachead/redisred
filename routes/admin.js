@@ -14,7 +14,6 @@ module.exports = function(frontend, api) {
   var frontendRouter = express.Router();
   frontendRouter.use(bodyParser.urlencoded({ extended: false }));
   frontendRouter.get('/', frontend.showLogin);
-  // frontendRouter.post('/login', frontend.login);
   frontendRouter.get('/logout', frontend.logout);
 
   frontendRouter.get(

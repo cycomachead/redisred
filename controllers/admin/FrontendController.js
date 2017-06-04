@@ -86,6 +86,7 @@ module.exports = function(redis) {
   // TODO: Expose a different group by function (weeks, hours, etc)
   FrontendController.visitLog = function(req, res) {
     const key = req.params.redirect;
+    const groupBy = req.query.group_by || 'day';
     Redirect.get(key, function(err, redirect) {
       if (err) {
         res.status(500).render('error', {
@@ -94,7 +95,7 @@ module.exports = function(redis) {
         });
       } else {
         result = redirect.clicks.map((c) => new Date(+c))
-        result = _.countBy(result, d => moment(d).startOf('day').format());
+        result = _.countBy(result, d => moment(d).startOf(groupBy).format());
         res.status(200).json(result);
       }
     });
