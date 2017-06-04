@@ -51,6 +51,9 @@ module.exports = function(redis) {
           return a[sort_key] === b[sort_key] ? 0 : a[sort_key] < b[sort_key] ? before : after;
         });
 
+        redirects.forEach((redirect) => {
+            redirect.created_at = moment(redirect.created_at).format('l');
+        });
         res.status(200).render('admin/redirects', {
           redirects: redirects,
           token: req.csrfToken()
