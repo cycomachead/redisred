@@ -22,6 +22,9 @@
     "API_TOKEN": {
       "description": "The token to be used on all API calls"
     },
+    "GOOGLE_ANALYTICS_ID": {
+      "description": "A GA app id."
+    },
     "ROOT_REDIRECT": {
       "description": "The URL the root of your website should redirect to."
     },
