@@ -71,7 +71,7 @@ module.exports = function(redis) {
         res.status(200).render('admin/view', {
           key: key,
           url: redirect.url,
-          created_at: redirect.created_at,
+          created_at: moment(redirect.created_at).format('LLL'),
           created_by: redirect.created_by,
           count: redirect.clicks.length,
           visits: redirect.clicks.map((c) => new Date(+c)),
