@@ -17,7 +17,7 @@ A small Redis-based URL Redirect. The original base for bjc.link was built from 
 ### Admins
 
 * `/admin` brings people to page where they can sign in with Google.
-* `/admin/redirects` lets people view and edit all of the redirects. 
+* `/admin/redirects` lets people view and edit all of the redirects.
 * `/admin/users` to manage who has access to create redirects.
 * Link tracking, including a visit graph, and Google Analytics support
 * Edit URLs after creation
@@ -51,10 +51,11 @@ Some quick easy steps:
 | PORT | The port this app should run on |
 | ADMIN_EMAIL | The email of the first admin.  |
 | API_TOKEN | The token to be used on all API calls |
+| GOOGLE_ANALYTICS_ID | Track visits with Google Analytics. |
 | ROOT_REDIRECT | The URL the root of your website should redirect to |
 | SESSION_SECRET | A secret key for verifying the integrity of signed cookies |
 
 
 ## License
 
-Redisred is released under the MIT license.
+bjc.link is released under the MIT license.
