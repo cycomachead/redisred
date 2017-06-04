@@ -20,21 +20,21 @@ var apiToken = process.env.API_TOKEN || '1234567890abcdefghijklmnopqrstuvwxyz';
 
 
 var express = require('express');
-var session = require('express-session');
+var cookieSession = require('cookie-session');
 var cookieParser = require('cookie-parser');
 var Redis = require('ioredis');
 var passport = require('passport');
 var favicon = require('serve-favicon');
-var RedisStore = require('connect-redis')(session);
+// var RedisStore = require('connect-redis')(session);
 
 var redis = Redis(redisUrl);
 var authentication = require('./authentication')(passport, redis);
 
 //Initialize the app
 var app = express();
-var redisSessionStore = new RedisStore({
-  client: redis
-});
+// var redisSessionStore = new RedisStore({
+//   client: redis
+// });
 
 app.set('views', './views');
 app.set('view engine', 'jade');
@@ -42,19 +42,12 @@ app.set('view engine', 'jade');
 app.use(express.static('./public/'));
 app.use(favicon('./public/assets/favicon.png'));
 app.use(cookieParser());
-app.use(session({
-  store: redisSessionStore,
-  secret: sessionSecret,
-  resave: true,
-  saveUninitialized: true
-}));
+app.use(cookieSession({ secret: sessionSecret }));
 app.use(passport.initialize());
 app.use(passport.session());
 
 // Initialize controllers
-var frontendController = require('./controllers/admin/FrontendController')(
-  redis, passport
-);
+var frontendController = require('./controllers/admin/FrontendController')(redis);
 var apiController = require('./controllers/admin/APIController')(
   redis, apiToken
 );

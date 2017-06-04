@@ -65,6 +65,8 @@ body {
 }
 
 .clicksChart {
+  border: 2px solid #CCC;
+  border-radius: 6px;
   height: 350px;
   width: 80%; 
   margin: 1em auto;

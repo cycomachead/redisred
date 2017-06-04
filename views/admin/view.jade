@@ -3,30 +3,30 @@ extends ../layouts/layout.jade
 - var title = `Details ${key} | ${options.APP_NAME}`
 
 block content
-  //- Remove the ms from the end of time stamps
   div.container-fluid
-    h1
-     code #{key}
-     &nbsp; Detials
+    h2
+      code #{key}
+      &nbsp; Detials
     div.table-responsive.redirects-table
       table.table.table-striped
-        thead.thead-default
-          tr
-            th Key
-            th URL
-            th Clicks
-            th Created At
         tbody
-          tr
-            td
-              =key
-            td
-              a(href=url)=url
-            td
-              =count
-            td
-              =created_at
-    
+         tr
+           th Key
+           td #{key}
+         tr
+           th URL
+           td
+             a(href=url)=url
+         tr
+           th Clicks
+           td #{count}
+         tr
+           th Created At
+           td #{created_at}
+        tr
+          th Created By
+          td #{created_by}
+
     div#chart.clicksChart
 
     script(src="/assets/js/Chart.bundle.min.js")

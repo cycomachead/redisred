@@ -4,7 +4,6 @@ var moment = require('moment');
 var redirectModel = require('../../models/Redirect');
 var authModel = require('../../models/AuthorizedUsers');
 
-
 module.exports = function(redis) {
   const Redirect = redirectModel(redis);
   const Authorization = authModel(redis);
@@ -28,9 +27,8 @@ module.exports = function(redis) {
   };
 
   FrontendController.logout = function(req, res) {
-    req.session.destroy(function() {
-      res.redirect('/admin');
-    });
+    req.session = null;
+    res.redirect('/admin');
   };
 
   // Redirect Logic
@@ -74,6 +72,7 @@ module.exports = function(redis) {
           key: key,
           url: redirect.url,
           created_at: redirect.created_at,
+          created_by: redirect.created_by,
           count: redirect.clicks.length,
           visits: redirect.clicks.map((c) => new Date(+c)),
           token: req.csrfToken()
@@ -82,6 +81,7 @@ module.exports = function(redis) {
     });
   };
   
+  // TODO: Expose a different group by function (weeks, hours, etc)
   FrontendController.visitLog = function(req, res) {
     const key = req.params.redirect;
     Redirect.get(key, function(err, redirect) {
@@ -93,7 +93,6 @@ module.exports = function(redis) {
       } else {
         result = redirect.clicks.map((c) => new Date(+c))
         result = _.countBy(result, d => moment(d).startOf('day').format());
-        // result = _.forEach(result, (d, k) =>d.length)
         res.status(200).json(result);
       }
     });
@@ -102,6 +101,7 @@ module.exports = function(redis) {
   FrontendController.createRedirect = function(req, res) {
     var key = req.body.key;
     var url = req.body.url;
+    var email = req.user.email;
     if (!key || !url) {
       res.status(400).render('error', {
         statusCode: 400,
@@ -109,7 +109,7 @@ module.exports = function(redis) {
       });
       return;
     }
-    Redirect.create(key, url, function(err, redirect) {
+    Redirect.create(key, url, email, function(err, redirect) {
       if (err) {
         res.status(500).render('error', {
           statusCode: 500,
@@ -214,6 +214,6 @@ module.exports = function(redis) {
     });
   };
 
-
+  Authorization.create(process.env.ADMIN_EMAIL, console.log);
   return FrontendController;
 };

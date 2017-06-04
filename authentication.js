@@ -21,10 +21,7 @@ module.exports = function(passport, redis) {
     function(req, accessToken, refreshToken, profile, cb) {
       // TODO: Perhaps this could be more robust.
       const email = profile.emails[0] && profile.emails[0].value;
-      if (email === process.env.ADMIN_EMAIL) {
-          cb(null, true);
-          return;
-      }
+      profile.email = email;
 
       Authorization.isAuthorized(email, (err, resp) => {
         if (err) {

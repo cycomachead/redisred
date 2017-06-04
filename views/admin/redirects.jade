@@ -3,8 +3,6 @@ extends ../layouts/layout.jade
 - var title = `redirects | ${options.APP_NAME}`
 
 block content
-  //- Remove the ms from the end of time stamps
-  - formattedDate = function(date) { return date.toLocaleString().replace(/(\d?\d):(\d\d):(\d\d)/, '$1:$2'); }
   div.container-fluid
     h1 #{options.APP_NAME} admin
     div.table-responsive.redirects-table
@@ -15,9 +13,9 @@ block content
               a(href='?sort=key&direction=up') Key
             th(width="50%")
               a(href='?sort=url&direction=up') URL
-            th(width="8%")
+            th(width="5%")
               a(href='?sort=clicks&direction=up') Clicks
-            th(width="12%")
+            th(width="15%")
               a(href='?sort=created_at&direction=down') Created At
             th(width="10%") Action
         tbody
@@ -38,8 +36,8 @@ block content
                 a(href=("/admin/view/"+redirect.key))=redirect.key
               td.td-overflow
                 a(href=redirect.url)= redirect.url
-              td.redirect-list= redirect.clicks
-              td #{formattedDate(redirect.created_at)}
+              td= redirect.clicks
+              td= redirect.created_at
               form(action="/admin/redirect/delete", method="POST")
                 td(colspan=2)
                   input(type="hidden", name="_csrf", value=token)

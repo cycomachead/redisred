@@ -19,6 +19,9 @@ module.exports = function(redis) {
                 });
             }
             else {
+                if (redirect.indexOf('http') == -1) {
+                    redirect = 'https://' + redirect;
+                }
                 res.redirect(redirect);
             }
         });
