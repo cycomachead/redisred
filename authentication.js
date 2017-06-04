@@ -24,12 +24,10 @@ module.exports = function(passport, redis) {
       profile.email = email;
 
       Authorization.isAuthorized(email, (err, resp) => {
-        if (err) {
-          cb(err, false);
-        } else if (resp == 1) {
-          cb(null, profile);
+        if (err || resp !== 1) {
+          cb(err, null);
         } else {
-          cb(false);
+          cb(null, profile);
         }
       });
     }
