@@ -27,8 +27,7 @@ module.exports = function(redis) {
   };
 
   FrontendController.logout = function(req, res) {
-    req.session = null;
-    res.redirect('/admin');
+    req.session.destroy(res.redirect('/admin'));
   };
 
   // Redirect Logic
