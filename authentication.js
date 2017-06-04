@@ -2,11 +2,11 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 const AuthorizationModel = require('./models/AuthorizedUsers');
 
-const googleSettings = new GoogleStrategy({
+const googleSettings = {
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
   callbackURL: `${process.env.DOMAIN}:${process.env.PORT}/auth/google/callback`
-});
+};
 
 module.exports = function(passport, redis) {
   const Authorization = AuthorizationModel(redis);
@@ -18,7 +18,7 @@ module.exports = function(passport, redis) {
     done(null, username);
   });
 
-  passport.use(
+  passport.use(new GoogleStrategy(
     googleSettings,
     function(accessToken, refreshToken, profile, cb) {
       // TODO: Perhaps this could be more robust.
