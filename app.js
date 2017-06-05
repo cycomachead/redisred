@@ -27,10 +27,9 @@ var passport = require('passport');
 var favicon = require('serve-favicon');
 var RedisStore = require('connect-redis')(session);
 
+var app = express();
 var redis = Redis(redisUrl);
 
-//Initialize the app
-var app = express();
 var redisSessionStore = new RedisStore({
   client: redis
 });
