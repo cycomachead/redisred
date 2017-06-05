@@ -22,7 +22,7 @@ module.exports = function(redis) {
     if (req.isAuthenticated()) {
       res.redirect('/admin/redirects');
     } else {
-      res.render('admin/root');
+      res.render('admin/login');
     }
   };
 
@@ -153,6 +153,9 @@ module.exports = function(redis) {
   };
 
   // Users Logic
+  // TODO: Extract this to a different file.
+  Authorization.create(process.env.ADMIN_EMAIL, console.log);
+
   FrontendController.getAllUsers = function(req, res) {
     Authorization.allAuthorizations(function(err, users) {
       if (err) {
@@ -224,6 +227,5 @@ module.exports = function(redis) {
     });
   };
 
-  Authorization.create(process.env.ADMIN_EMAIL, console.log);
   return FrontendController;
 };
