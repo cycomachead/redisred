@@ -82,8 +82,7 @@ module.exports = function(redis) {
       }
     });
   };
-  
-  // TODO: Expose a different group by function (weeks, hours, etc)
+
   FrontendController.visitLog = function(req, res) {
     const key = req.params.redirect;
     const groupBy = req.query.group_by || 'day';
@@ -107,8 +106,15 @@ module.exports = function(redis) {
       }
     });
   };
-  
-  FrontendController.createRedirect = function(req, res) {
+
+  FrontendController.newRedirect = function (req, res) {
+    res.status(200).render('admin/new', {
+      token: req.csrfToken()
+    });
+  }
+
+  // POST Actions
+  FrontendController.createRedirect = function (req, res) {
     var key = req.body.key;
     var url = req.body.url;
     var email = req.user.email;

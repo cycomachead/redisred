@@ -1,0 +1,32 @@
+extends ../layouts/layout.jade
+
+- var title = `New Redirect | ${options.APP_NAME}`
+
+block content
+  div.row
+    div.col-md-3
+    div.col-md-6
+      div.card.card-block.login-container
+        img.login-logo(src='/assets/img/bjc.png')
+        h2.card-title Create a redirect
+        div.form-box
+          form(action="/admin/login", method="POST")
+            input(type="hidden", name="_csrf", value=token)
+            div.form-group
+              label(for="key") Short Code
+              input.form-control(
+                id="key",
+                name="key",
+                required="true",
+                placeholder="Short Code")
+            div.form-group
+              label(for="url") URL
+              input.form-control(
+                id="url",
+                name="url",
+                required="true",
+                placeholder="https://")
+            button.login.btn.btn-success.btn-block(type="submit")
+              | Create
+    div.col-md-3
+

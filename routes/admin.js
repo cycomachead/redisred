@@ -23,6 +23,12 @@ module.exports = function(frontend, api) {
       frontend.authenticate,
       frontend.getAllRedirects
   );
+  frontendRouter.get(
+      '/new',
+      csrfProtection,
+      frontend.authenticate,
+      frontend.newRedirect
+  );
   frontendRouter.post(
       '/redirect/create',
       csrfProtection,
