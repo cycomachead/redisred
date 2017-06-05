@@ -28,7 +28,6 @@ var favicon = require('serve-favicon');
 var RedisStore = require('connect-redis')(session);
 
 var redis = Redis(redisUrl);
-var authentication = require('./authentication')(passport, redis);
 
 //Initialize the app
 var app = express();
@@ -59,10 +58,13 @@ var apiController = require('./controllers/admin/APIController')(
   redis, apiToken
 );
 var redirectController = require('./controllers/RedirectController')(redis);
+var authentication = require('./authentication')(passport, redis);
+
 
 // Initialize routes
-var admin = require('./routes/admin.js')(frontendController, apiController);
-var main = require('./routes/main.js')(rootRedirect, redirectController);
+const admin = require('./routes/admin.js')(frontendController, apiController);
+const auth = require('./routes/auth.js')(passport);
+const main = require('./routes/main.js')(rootRedirect, redirectController);
 
 // send a basic page view before anything else executes
 // This tracks both short codes and admin pages.
@@ -93,23 +95,9 @@ app.use(function(req, res, next) {
   next();
 });
 
-// TODO: Move to auth file?
-app.get(
-  '/auth/google',
-  passport.authenticate('google', {
-    scope: ['profile', 'email']
-  })
-);
-
-app.get(
-  '/auth/google/callback',
-  passport.authenticate(
-    'google',
-    { successRedirect: '/admin/root', failureRedirect: '/admin' }
-  )
-);
 
 app.use('/admin', admin);
+app.use('/auth', auth);
 app.use('/', main);
 
 app.use(function(req, res, next) {
@@ -121,12 +109,12 @@ app.use(function(req, res, next) {
 
 // Start the server
 console.log('Connecting to redis...');
-redis.ping(function(err) {
-  if (!err) {
-    console.log('Connection successful. Server listening on port ' + port);
-    app.listen(port);
-  } else {
+redis.ping(function (err) {
+  if (err) {
     console.error(err);
     process.exit(1);
   }
+
+  console.log('Connection successful. Server listening on port ' + port);
+  app.listen(port);
 });

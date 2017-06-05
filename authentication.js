@@ -10,6 +10,7 @@ const googleSettings = {
 
 module.exports = function(passport, redis) {
   const Authorization = AuthorizationModel(redis);
+
   passport.serializeUser(function(username, done) {
     done(null, username);
   });

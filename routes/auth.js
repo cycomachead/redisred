@@ -1,7 +1,7 @@
 const express = require('express');
 
 module.exports = (passport) => {
-  const AuthRouter = express.Router()
+  const AuthRouter = express.Router();
   AuthRouter.get(
     '/google',
     passport.authenticate('google', {
