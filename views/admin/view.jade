@@ -7,8 +7,8 @@ block content
     h2
       code #{key}
       &nbsp; Detials
-    div.table-responsive.redirects-table
-      table.table.table-striped
+    div.table-responsive
+      table.table.table-striped.table-bordered
         tbody
          tr
            th Key
@@ -34,7 +34,9 @@ block content
     script(src="/assets/js/chartkick.js")
     script(type='text/javascript').
       window.onload = function () {
-         new Chartkick.LineChart(
-             "chart",
-             location.pathname + "/visits" + location.search)
+        new Chartkick.ColumnChart(
+          "chart",
+          location.pathname + "/visits" + location.search,
+          { xtitle: "Time", ytitle: "Clicks" }
+        )
       }

@@ -94,8 +94,15 @@ module.exports = function(redis) {
           errorMessage: err
         });
       } else {
-        result = redirect.clicks.map((c) => new Date(+c))
-        result = _.countBy(result, d => moment(d).startOf(groupBy).format());
+        result = redirect.clicks.map(date => new Date(+date));
+        result = _.countBy(
+            result,
+            d => moment(d).startOf(groupBy).format('lll')
+        );
+        // https://github.com/lodash/lodash/issues/1459#issuecomment-253969771
+        result = _(result).toPairs().sortBy(
+            key => +moment(key)
+        ).fromPairs().value();
         res.status(200).json(result);
       }
     });
