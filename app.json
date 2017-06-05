@@ -22,8 +22,17 @@
     "API_TOKEN": {
       "description": "The token to be used on all API calls"
     },
+    "DOMAIN": {
+      "description": "The URL the site will be hosted from."
+    },
     "GOOGLE_ANALYTICS_ID": {
       "description": "A GA app id."
+    },
+    "GOOGLE_CLIENT_ID": {
+      "description": "Google OAuth Client ID."
+    },
+    "GOOGLE_CLIENT_SECRET": {
+      "description": "Google OAuth Client Secret."
     },
     "ROOT_REDIRECT": {
       "description": "The URL the root of your website should redirect to."

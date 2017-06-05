@@ -49,11 +49,12 @@ Some quick easy steps:
 | Variable | Description |
 | -------- | ----------- |
 | PORT | The port this app should run on |
-| ADMIN_EMAIL | The email of the first admin.  |
+| ADMIN_EMAIL | The email of the first admin |
 | API_TOKEN | The token to be used on all API calls |
-| GOOGLE_ANALYTICS_ID | Track visits with Google Analytics. |
-| GOOGLE_CLIENT_ID | Google OAuth Client id (from app console). |
-| GOOGLE_CLIENT_SECRET | Google OAuth Client secret (from app console). |
+| DOMAIN | The url the site will be hosted from |
+| GOOGLE_ANALYTICS_ID | Track visits with Google Analytics |
+| GOOGLE_CLIENT_ID | Google OAuth Client id (from app console) |
+| GOOGLE_CLIENT_SECRET | Google OAuth Client secret (from app console) |
 | ROOT_REDIRECT | The URL the root of your website should redirect to |
 | SESSION_SECRET | A secret key for verifying the integrity of signed cookies |
 
