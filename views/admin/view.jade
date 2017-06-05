@@ -6,7 +6,7 @@ block content
   div.container-fluid
     h2
       code #{key}
-      &nbsp; Detials
+      | &nbsp; Detials
     div.table-responsive
       table.table.table-striped.table-bordered
         tbody
@@ -27,6 +27,13 @@ block content
         tr
           th Created By
           td #{created_by}
+        tr
+          th Show Stats By
+          td
+            select#groupingOption
+              for item in select_options
+                option(id=item.value, value=item.value)
+                  | #{item.text}
 
     div#chart.clicksChart
 
@@ -37,6 +44,12 @@ block content
         new Chartkick.ColumnChart(
           "chart",
           location.pathname + "/visits" + location.search,
-          { xtitle: "Time", ytitle: "Clicks" }
-        )
+          { xtitle: "#{group_by}", ytitle: "Clicks" }
+        );
+
+        $('#groupingOption').val('#{group_by}');
+
+        document.getElementById('groupingOption').onchange = function () {
+          window.location = location.pathname + '?group_by=' + this.value;
+        };
       }

@@ -77,6 +77,15 @@ module.exports = function(redis) {
           created_by: redirect.created_by,
           count: redirect.clicks.length,
           visits: redirect.clicks.map((c) => new Date(+c)),
+          group_by: req.query.group_by || 'day',
+          select_options: [
+           {value: 'minute', text: 'Minutes'},
+           {value: 'hour', text: 'Hours'},
+           {value: 'day', text: 'Days'},
+           {value: 'week', text: 'Weeks'},
+           {value: 'month', text: 'Months'},
+           {value: 'year', text: 'Years'}
+          ],
           token: req.csrfToken()
         });
       }
