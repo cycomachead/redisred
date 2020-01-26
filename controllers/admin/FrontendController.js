@@ -168,6 +168,8 @@ module.exports = function(redis) {
   };
 
   // Users Logic
+  // TODO: Extract this to a different file.
+  Authorization.create(process.env.ADMIN_EMAIL, console.log);
 
   FrontendController.getAllUsers = function(req, res) {
     Authorization.allAuthorizations(function(err, users) {
