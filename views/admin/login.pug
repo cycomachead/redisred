@@ -1,8 +1,8 @@
-extends ../layouts/layout.jade
+extends ../layouts/layout.pug
 
-- var title = `Log in | ${options.APP_NAME}`
 
 block content
+  - var title = `Log in | ${options.APP_NAME}`
   div.container-fluid
     h1.title-header #{options.APP_NAME} admin
     div.row
@@ -13,5 +13,4 @@ block content
           h2.card-title Login
           a.login.btn.btn-primary.btn-block(href="/auth/google" type="button")
             | Log in with Google
-     div.col-md-3
-
+      div.col-md-3

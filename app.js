@@ -35,7 +35,7 @@ var redisSessionStore = new RedisStore({
 });
 
 app.set('views', './views');
-app.set('view engine', 'jade');
+app.set('view engine', 'pug');
 
 app.use(express.static('./public/'));
 app.use(favicon('./public/assets/favicon.png'));
@@ -81,7 +81,7 @@ if (APP_CONFIG.googleAnalyticsId) {
   });
 }
 
-// Middleware for Jade Views
+// Middleware for Pug Views
 app.use(function(req, res, next) {
   if (!res.locals) {
     res.locals = {};

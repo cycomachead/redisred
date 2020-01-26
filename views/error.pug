@@ -1,11 +1,11 @@
-extends ./layouts/layout.jade
+extends ./layouts/layout.pug
 
-- var title = `${options.APP_NAME} | ${statusCode}`
+//- - var title = `${options.APP_NAME} | ${statusCode}`
 
 block content
   div.container
     h1(style="color: #d43f3a; font-size: 12em; text-align: center;") #{statusCode}
-    
+
     #errorMsg
       if missingPath
         h3(style="text-align: center;") The redirect <code>#{missingPath}</code> does not exist. :(
@@ -13,5 +13,5 @@ block content
         h3(style="text-align: center;") Uh oh! Something went wrong. :(
         h3(style="text-align: center;") <code>#{errorMessage}</code>
     h2(style="font-size: 5em; text-align: center; line-height: 2em;")
-      a(href="#{optionsROOT_REDIRECT}") 
+      a(href="#{optionsROOT_REDIRECT}")
         span #{options.APP_NAME}
