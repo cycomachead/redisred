@@ -1,14 +1,10 @@
 // Load the dotfiles.
 require('dotenv').load();
+const path = require('path');
 
 // TODO: Clean this up.
 var APP_CONFIG = {
   googleAnalyticsId: process.env.GOOGLE_ANALYTICS_ID,
-  passportStrategies: {
-    google: {
-
-    }
-  },
   adminEmail: process.env.ADMIN_EMAIL
 };
 
@@ -17,7 +13,13 @@ var redisUrl = process.env.REDIS_URL || 'redis://127.0.0.1:6379/0';
 var sessionSecret = process.env.SESSION_SECRET || 'this is really secure';
 var rootRedirect = process.env.ROOT_REDIRECT || `/admin`;
 var apiToken = process.env.API_TOKEN || '1234567890abcdefghijklmnopqrstuvwxyz';
+const SENTRY_DSN = process.env.SENTRY_DSN || '';
 
+const Sentry = require('@sentry/node');
+
+Sentry.init({
+  dsn: SENTRY_DSN,
+});
 
 var express = require('express');
 var session = require('express-session');
@@ -34,9 +36,24 @@ var redisSessionStore = new RedisStore({
   client: redis
 });
 
+// The request handler must be the first middleware on the app
+app.use(Sentry.Handlers.requestHandler());
+
 app.set('views', './views');
 app.set('view engine', 'pug');
 
+app.use("/bootstrap",
+  express.static(path.join(__dirname, '/node_modules/bootstrap/dist/'))
+);
+app.use("/chartjs",
+  express.static(path.join(__dirname, '/node_modules/chart.js/dist/'))
+);
+app.use("/chartkick",
+  express.static(path.join(__dirname, '/node_modules/chartkick/dist/'))
+);
+app.use("/jquery",
+  express.static(path.join(__dirname, '/node_modules/jquery/dist/'))
+);
 app.use(express.static('./public/'));
 app.use(favicon('./public/assets/favicon.png'));
 app.use(cookieParser());
@@ -81,6 +98,7 @@ if (APP_CONFIG.googleAnalyticsId) {
   });
 }
 
+
 // Middleware for Pug Views
 app.use(function(req, res, next) {
   if (!res.locals) {
@@ -98,6 +116,9 @@ app.use(function(req, res, next) {
 app.use('/admin', admin);
 app.use('/auth', auth);
 app.use('/', main);
+
+// The error handler must be before any other error middleware and after all controllers
+app.use(Sentry.Handlers.errorHandler());
 
 app.use(function(req, res, next) {
   res.status(404).render('error', {

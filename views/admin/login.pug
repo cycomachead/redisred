@@ -1,16 +1,18 @@
 extends ../layouts/layout.pug
 
+block vars
+  - var title = `Log in | ${options.APP_NAME}`
 
 block content
-  - var title = `Log in | ${options.APP_NAME}`
   div.container-fluid
     h1.title-header #{options.APP_NAME} admin
     div.row
       div.col-md-3
       div.col-md-6
         div.card.card-block.login-container
-          img.login-logo(src='/assets/img/bjc.png')
-          h2.card-title Login
-          a.login.btn.btn-primary.btn-block(href="/auth/google" type="button")
-            | Log in with Google
+          div.card-body
+            img.login-logo(src='/assets/img/bjc.png')
+            h2.card-title Login
+            a.btn.btn-primary.btn-lg.btn-block(href="/auth/google" role="button")
+              | Log in with Google
       div.col-md-3

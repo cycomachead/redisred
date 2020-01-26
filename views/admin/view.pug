@@ -1,44 +1,45 @@
 extends ../layouts/layout.pug
 
-//- - var title = `Details ${key} | ${options.APP_NAME}`
+block vars
+  - var title = `Details ${key} | ${options.APP_NAME}`
 
 block content
   div.container-fluid
-    h2
+    h1.text-light.display-4
       code #{key}
-      | &nbsp; Detials
     div.table-responsive
-      table.table.table-striped.table-bordered
+      table.table.table-striped.table-bordered.table-dark
         tbody
-         tr
-           th Key
-           td
-             a(href='/#{key}' target='_blank') #{key}
-         tr
-           th URL
-           td
-             a(href=url)=url
-         tr
-           th Clicks
-           td #{count}
-         tr
-           th Created At
-           td #{created_at}
-        tr
-          th Created By
-          td #{created_by}
-        tr
-          th Show Stats By
-          td
-            select#groupingOption
-              for item in select_options
-                option(id=item.value, value=item.value)
-                  | #{item.text}
+          //-  tr
+          //-    th Key
+          //-    td
+          //-      a(href=`/${key}` target='_blank') #{key}
+          tr
+            th URL
+            td
+              a(href=`/${key}` target='_blank')=url
+          tr
+            th Clicks
+            td #{count}
+          tr
+            th Created At
+            td #{created_at}
+          tr
+            th Created By
+            td #{created_by}
+          tr
+            th Show Stats By
+            td
+              select#groupingOption.form-control
+                for item in select_options
+                  option(id=item.value, value=item.value)
+                    | #{item.text}
 
-    div#chart.clicksChart
+    div#chart.clicksChart.bg-light
 
-    script(src="/assets/js/Chart.bundle.min.js")
-    script(src="/assets/js/chartkick.js")
+    script(src="/chartjs/Chart.bundle.min.js")
+    script(src="/chartkick/chartkick.js")
+    link(type="text/stylesheet" href="/chartjs/Chart.min.css")
     script(type='text/javascript').
       window.onload = function () {
         new Chartkick.ColumnChart(
@@ -47,7 +48,7 @@ block content
           { xtitle: "#{group_by}", ytitle: "Clicks" }
         );
 
-        $('#groupingOption').val('#{group_by}');
+        $('#groupingOption').val("#{group_by}");
 
         document.getElementById('groupingOption').onchange = function () {
           window.location = location.pathname + '?group_by=' + this.value;

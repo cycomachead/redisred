@@ -1,31 +1,42 @@
 extends ../layouts/layout.pug
 
-- var title = `New Redirect | ${options.APP_NAME}`
+block vars
+  - var title = `New Redirect | ${options.APP_NAME}`
 
 block content
+  script(src="/assets/js/application.js")
   div.row
     div.col-md-3
     div.col-md-6
-      div.card.card-block.login-container
-        img.login-logo(src='/assets/img/bjc.png')
-        h2.card-title Create a redirect
-        div.form-box
-          form(action="/admin/login", method="POST")
-            input(type="hidden", name="_csrf", value=token)
-            div.form-group
-              label(for="key") Short Code
-              input.form-control(
-                id="key",
-                name="key",
-                required="true",
-                placeholder="Short Code")
-            div.form-group
-              label(for="url") URL
-              input.form-control(
-                id="url",
-                name="url",
-                required="true",
-                placeholder="https://")
-            button.login.btn.btn-success.btn-block(type="submit")
-              | Create
+      div.card
+        .card-header
+          h2 Create a redirect
+        .card-body
+          div.form-box
+            form(action="/admin/redirect/create", method="POST")
+              input(type="hidden", name="_csrf", value=token)
+              .form-group
+                label(for="key") Short Code
+                input.form-control(
+                  id="key",
+                  name="key",
+                  required="true",
+                  placeholder="Short Code")
+              //- .form-group.row
+              //-   label.col-form-label.col-sm-2(for="title") Page Title
+              //-   input.col-sm-10.form-control(
+              //-     id="title",
+              //-     name="title",
+              //-     required="true",
+              //-     placeholder="A Web Page")
+              .form-group
+                label(for="url") URL
+                input.form-control(
+                  id="url",
+                  name="url",
+                  type="url",
+                  required="true",
+                  placeholder="https://")
+              button.login.btn.btn-success.btn-block(type="submit")
+                | Create
     div.col-md-3

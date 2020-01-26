@@ -25,18 +25,23 @@
   },
   "homepage": "https://github.com/cycomachead/bjc.link",
   "dependencies": {
+    "@sentry/node": "^5.11.1",
     "body-parser": "^1.19.0",
-    "connect-redis": "^2.4.0",
+    "bootstrap": "^4.4.1",
+    "chart.js": "^2.9.3",
+    "chartkick": "^3.2.0",
+    "connect-redis": "^4.0.3",
     "cookie-parser": "^1.4.3",
     "csurf": "^1.8.3",
     "dotenv": "^1.2.0",
     "express": "^4.17.1",
     "express-session": "^1.17.0",
     "ioredis": "^3.0.0",
+    "jquery": "^3.4.1",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
-    "passport": "^0.2.2",
-    "passport-google-oauth20": "^1.0.0",
+    "passport": "^0.4.1",
+    "passport-google-oauth20": "^2.0.0",
     "passport-local": "^1.0.0",
     "pug": "^2.0.4",
     "serve-favicon": "^2.5.0",
@@ -47,6 +52,6 @@
     "node": ">=6.10.x"
   },
   "devDependencies": {
-    "reload": "^0.7.0"
+    "reload": "^3.0.4"
   }
 }

@@ -1,10 +1,10 @@
 /*
     Redirects -- Redis Model
-    
+
     redirect:SHORT_URL => url
     created_at:SHORT_URL => timestamp
     created_by:SHORT_URL => email_address
-    vists:SHORT_URL: [timestamps]
+    vists:SHORT_URL => [timestamps]
 */
 
 const redirectPrefix = "redirect:";
@@ -80,7 +80,7 @@ module.exports = function(redis) {
       }
       // Returns [
       // [ null, [ 'http://twitter.com', '1496302478412', 'email' ] ],
-      // [ null, [ '1496302970143', '1496302482715' ] ] 
+      // [ null, [ '1496302970143', '1496302482715' ] ]
       // ]
       callback(null, redisResponseToObject(
         key,

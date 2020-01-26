@@ -1,4 +1,4 @@
-nav.navbar.sticky-top.navbar-toggleable-md.navbar-inverse.bg-faded.bg-inverse
+nav.nav.navbar.sticky-top.navbar-expand-lg.navbar-toggleable-md.navbar-light.bg-light
   button.navbar-toggler.navbar-toggler-right(
     type="button"
     data-toggle="collapse"
@@ -8,7 +8,7 @@ nav.navbar.sticky-top.navbar-toggleable-md.navbar-inverse.bg-faded.bg-inverse
     aria-label="Toggle navigation"
   )
     span.navbar-toggler-icon
-  a.navbar-brand(href="#") #{options.APP_NAME}
+  a.navbar-brand(href="/admin") #{options.APP_NAME}
 
   div.collapse.navbar-collapse#navbarSupportedContent
     ul.navbar-nav.mr-auto
@@ -18,4 +18,3 @@ nav.navbar.sticky-top.navbar-toggleable-md.navbar-inverse.bg-faded.bg-inverse
         a.nav-link(href="/admin/new") Create
       li.nav-item
         a.nav-link(href="/admin/users") Users
-
