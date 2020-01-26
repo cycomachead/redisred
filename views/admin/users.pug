@@ -1,14 +1,14 @@
 extends ../layouts/layout.pug
 
-//- - var title = `Users | ${options.APP_NAME}`
+block vars
+- var title = `Users | ${options.APP_NAME}`
 
 block content
-  //- Remove the ms from the end of time stamps
   div.container-fluid
-    h1 Manage Users | #{options.APP_NAME}
+    h1.text-light.display-3 Manage Users | #{options.APP_NAME}
     div.table-responsive.redirects-table
-      table.table.table-striped
-        thead
+      table.table.table-striped.table-dark
+        thead.thead-light
           tr
             th(width="85%")
               a(href='?sort=key&direction=up') User Email
@@ -29,4 +29,4 @@ block content
                 td
                   input(type="hidden", name="_csrf", value=token)
                   input(type="hidden", name="email", value=user)
-                  button.btn.btn-warning.btn-block.remove-button Remove
+                  button.btn.btn-danger.btn-block.remove-button Remove
