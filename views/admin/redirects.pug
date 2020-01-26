@@ -4,8 +4,12 @@ block vars
  - var title = `redirects | ${options.APP_NAME}`
 
 block content
+  p.text-light
+    | Drag this to your bookmarks bar to make it easy to save short URLs.
+    | &nbsp;
+    a(href="javascript:(function()%20%7B%20var%20l%20%3D%20window.location.href%3B%20window.open(%60https%3A%2F%2Fbeta.bjc.link%2Fadmin%2Fnew%3Furl%3D%24%7BencodeURI(l)%7D%60%2C%20'New%20BJC%20Short%20Link'%2C%20'menubar%3Dyes%2Clocation%3Dno%2Cresizable%3Dno%2Cscrollbars%3Dno%2Cstatus%3Dno%2Cheight%3D420%2Cwidth%3D420%22')%7D)()%3B") New bjc.link
   div.row
-    h1.display-3.text-light Redirects
+    h1.display-4.text-light Redirects
     div.table
       table.table.table-striped.table-bordered.table-dark.redirects-table
         thead.thead-light
