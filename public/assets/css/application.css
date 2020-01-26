@@ -4,7 +4,6 @@ body {
 
 .main-content {
   margin: 5% 2%;
-
 }
 
 .title-header {
@@ -28,8 +27,8 @@ body {
 /* Basic "box" styling */
 .login-container,
 .redirects-table {
-  border-radius: 10px;
-  border: 1.5px solid #AAA;
+  border-radius: 4px;
+  border: 1.5px solid #CCC;
 }
 
 .login-container {
@@ -47,7 +46,7 @@ body {
   text-align: center;
   padding: 10px;
   border: 1.5px solid #CCC;;
-  background: #FAFAFA;
+  /* background: #FAFAFA; */
 }
 
 .form-box input:focus {
@@ -65,7 +64,7 @@ body {
 
 .clicksChart {
   border: 2px solid #AAA;
-  border-radius: 8px;
+  border-radius: 4px;
   height: 350px;
   width: 80%;
   padding: .5em;
