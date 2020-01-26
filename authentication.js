@@ -2,10 +2,13 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 const AuthorizationModel = require('./models/AuthorizedUsers');
 
+const port = process.env.NODE_ENV === 'production' ? '' : `:${process.env.PORT}`;
+const callback_url = `${process.env.DOMAIN}${port}/auth/google/callback`;
+
 const googleSettings = {
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: `${process.env.DOMAIN}:${process.env.PORT}/auth/google/callback`
+  callbackURL:  callback_url
 };
 
 module.exports = function(passport, redis) {
