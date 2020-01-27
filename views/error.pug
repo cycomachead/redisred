@@ -1,6 +1,7 @@
 extends ./layouts/layout.pug
 
-//- - var title = `${options.APP_NAME} | ${statusCode}`
+block vars
+  - var title = `${options.APP_NAME} | ${statusCode}`
 
 block content
   div.container
@@ -8,10 +9,10 @@ block content
 
     #errorMsg
       if missingPath
-        h3(style="text-align: center;") The redirect <code>#{missingPath}</code> does not exist. :(
+      h3.text-light(style="text-align: center;") The redirect <code>#{missingPath}</code> does not exist. :(
       else if errorMessage
-        h3(style="text-align: center;") Uh oh! Something went wrong. :(
-        h3(style="text-align: center;") <code>#{errorMessage}</code>
-    h2(style="font-size: 5em; text-align: center; line-height: 2em;")
+        h3.text-light(style="text-align: center;") Uh oh! Something went wrong. :(
+        h3.text-light(style="text-align: center;") <code>#{errorMessage}</code>
+    h2.text-light(style="font-size: 5em; text-align: center; line-height: 2em;")
       a(href="#{optionsROOT_REDIRECT}")
         span #{options.APP_NAME}

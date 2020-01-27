@@ -25,7 +25,7 @@ function createResponseObject(key, url, clicks, created, email) {
 };
 
 function protectedGet(x) {
-  if (x.constructor == Array && x[0] == null && x.length > 1) {
+  if (x && x.constructor == Array && x[0] == null && x.length > 1) {
     return x[1];
   }
   return x;
@@ -60,6 +60,18 @@ module.exports = function(redis) {
         return callback(err);
       }
       callback(null, result[0] && result[0][1]);
+    });
+  };
+
+  // returns true when the key exists.
+  Redirect.checkExists = (key, callback) => {
+    key = key.toLowerCase();
+    redis.get(`${redirectPrefix}${key}`, (err, result) => {
+      if (err) {
+        callback(err);
+      } else {
+        callback(null, result !== null);
+      }
     });
   };
 

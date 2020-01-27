@@ -15,27 +15,49 @@ block content
           //-    td
           //-      a(href=`/${key}` target='_blank') #{key}
           tr
-            th URL
+            th(width="10%") URL
             td
               a(href=`/${key}` target='_blank')=url
           tr
-            th Clicks
+            th(width="10%") Clicks
             td #{count}
           tr
-            th Created At
+            th(width="10%") Created At
             td #{created_at}
           tr
-            th Created By
+            th(width="10%") Created By
             td #{created_by}
           tr
-            th Show Stats By
+            th(width="10%") Show Stats By
             td
               select#groupingOption.form-control
                 for item in select_options
                   option(id=item.value, value=item.value)
                     | #{item.text}
+          tr
+            th Update
+            td
+              form.form-inline(action="/admin/redirect/update", method="POST")
+                input(type="hidden", name="_csrf", value=token)
+                input(type="hidden", name="key", value=key)
+                .form-group
+                  input.form-control(type="url", name="url" value=url)
+                button.btn.btn-info.mx-md-2 Update
 
     div#chart.clicksChart.bg-light
+
+    div.col-md-2
+      form(action="/admin/redirect/delete", method="POST")
+        input(type="hidden", name="_csrf", value=token)
+        input(type="hidden", name="key", value=key)
+        button.btn.btn-danger.remove-button Remove
+        //- :confirm => t('.destroy_confirm.body', :item => options[:item]),
+        //- 'data-confirm-fade' => true,
+        //- 'data-confirm-title' => t('.destroy_confirm.title', :item => options[:item]),
+        //- 'data-confirm-cancel' => t('.destroy_confirm.cancel', :item => options[:item]),
+        //- 'data-confirm-cancel-class' => 'btn-default'),
+        //- 'data-confirm-proceed' => t('.destroy_confirm.proceed', :item => options[:item]),
+        //- 'data-confirm-proceed-class' => 'btn-danger'
 
     script(src="/chartjs/Chart.bundle.min.js")
     script(src="/chartkick/chartkick.js")

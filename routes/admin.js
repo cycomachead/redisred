@@ -8,6 +8,7 @@ module.exports = function(frontend, api) {
   apiRouter.use(bodyParser.json());
   apiRouter.get('/', api.authenticate, api.getAllRedirects);
   apiRouter.post('/create', api.authenticate, api.createRedirect);
+  // apiRouter.post('/update', api.authenticate, api.updateRedirect);
   apiRouter.post('/delete', api.authenticate, api.deleteRedirect);
 
   var csrfProtection = csrf({ cookie: true });
@@ -36,12 +37,18 @@ module.exports = function(frontend, api) {
       frontend.createRedirect
   );
   frontendRouter.post(
+    '/redirect/update',
+    csrfProtection,
+    frontend.authenticate,
+    frontend.updateRedirect
+);
+  frontendRouter.post(
       '/redirect/delete',
       csrfProtection,
       frontend.authenticate,
       frontend.deleteRedirect
   );
-  
+
   frontendRouter.get(
       '/view/:redirect',
       csrfProtection,
@@ -74,7 +81,7 @@ module.exports = function(frontend, api) {
       frontend.authenticate,
       frontend.deleteAuthorization
   );
-  
+
   var router = express.Router();
   router.use('/api', apiRouter);
   router.use('/', frontendRouter);

@@ -14,6 +14,7 @@ module.exports = function(redis) {
     if (req.isAuthenticated()) {
       return next();
     } else {
+      // TODO: Error Flash
       res.redirect('/admin');
     }
   };
@@ -22,11 +23,13 @@ module.exports = function(redis) {
     if (req.isAuthenticated()) {
       res.redirect('/admin/redirects');
     } else {
+      // Flash message
       res.render('admin/login');
     }
   };
 
   FrontendController.logout = function(req, res) {
+    // TODO: Flash success
     req.session.destroy(res.redirect('/admin'));
   };
 
@@ -134,6 +137,48 @@ module.exports = function(redis) {
       });
       return;
     }
+    Redirect.checkExists(key, (err, exists) => {
+      if (err) {
+        res.status(500).render('error', {
+          statusCode: 500,
+          errorMessage: err
+        });
+      } else {
+        console.log('EXISTS???', key, exists);
+        if (exists) {
+          res.status(400).render('error', {
+            statusCode: 400,
+            errorMessage: 'Key in use'
+          });
+          return;
+        }
+        Redirect.create(key, url, email, function(err, response) {
+          if (err) {
+            res.status(500).render('error', {
+              statusCode: 500,
+              errorMessage: err
+            });
+          } else {
+            res.redirect('/admin/redirects');
+          }
+        });
+      }
+    });
+  };
+
+  // Updated is like create, but allows overwriting keys.
+  FrontendController.updateRedirect = function(req, res) {
+    var key = req.body.key;
+    var url = req.body.url;
+    var email = req.user.email;
+    if (!key || !url) {
+      res.status(400).render('error', {
+        statusCode: 400,
+        errorMessage: "Cannot create redirect: a short code or URL is missing."
+      });
+      return;
+    }
+    // Create also replaces values.
     Redirect.create(key, url, email, function(err, redirect) {
       if (err) {
         res.status(500).render('error', {

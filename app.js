@@ -54,6 +54,9 @@ app.use("/chartkick",
 app.use("/jquery",
   express.static(path.join(__dirname, '/node_modules/jquery/dist/'))
 );
+app.use("/ujs",
+  express.static(path.join(__dirname, '/node_modules/jquery-ujs/src/'))
+);
 app.use(express.static('./public/'));
 app.use(favicon('./public/assets/favicon.png'));
 app.use(cookieParser());

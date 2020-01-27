@@ -38,6 +38,7 @@
     "express-session": "^1.17.0",
     "ioredis": "^3.0.0",
     "jquery": "^3.4.1",
+    "jquery-ujs": "^1.2.2",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "passport": "^0.4.1",

@@ -34,12 +34,18 @@ module.exports = function(redis, apiToken) {
       res.status(400).send("You failed to supply all of the parameters.");
       return;
     }
-    Redirect.create(key, url, function(err, redirect) {
-      if (err)
+    Redirect.checkExists(key, (err, result) => {
+      if (err) {
         res.status(500).send(err);
-      else
-        sendJSON(res, redirect);
-    });
+      } else {
+        Redirect.create(key, url, 'APIUser', function(err, redirect) {
+          if (err)
+            res.status(500).send(err);
+          else
+            sendJSON(res, redirect);
+        });
+      }
+    })
   };
 
   APIController.deleteRedirect = function(req, res) {

@@ -7,7 +7,8 @@ block content
   p.text-light
     | Drag this to your bookmarks bar to make it easy to save short URLs.
     | &nbsp;
-    a(href="javascript:(function()%20%7B%20var%20l%20%3D%20window.location.href%3B%20window.open(%60https%3A%2F%2Fbeta.bjc.link%2Fadmin%2Fnew%3Furl%3D%24%7BencodeURI(l)%7D%60%2C%20'New%20BJC%20Short%20Link'%2C%20'menubar%3Dyes%2Clocation%3Dno%2Cresizable%3Dno%2Cscrollbars%3Dno%2Cstatus%3Dno%2Cheight%3D420%2Cwidth%3D420%22')%7D)()%3B") New bjc.link
+    a(href="javascript:(function()%20%7B%20var%20l%20%3D%20window.location.href%3B%20window.open(%60https%3A%2F%2Fbeta.bjc.link%2Fadmin%2Fnew%3Furl%3D%24%7BencodeURI(l)%7D%60%2C%20'New%20BJC%20Short%20Link'%2C%20'menubar%3Dyes%2Clocation%3Dno%2Cresizable%3Dno%2Cscrollbars%3Dno%2Cstatus%3Dno%2Cheight%3D450%2Cwidth%3D450%22')%7D)()%3B") New bjc.link
+
   div.row
     h1.display-4.text-light Redirects
     div.table
@@ -15,14 +16,14 @@ block content
         thead.thead-light
           tr
             th(width="20%")
-              a(href='?sort=key&direction=up') Key
+              a(href='?sort=key&direction=up') Short Code
             th(width="50%")
               a(href='?sort=url&direction=up') URL
             th(width="5%")
-              a(href='?sort=clicks&direction=up') Clicks
+              a(href='?sort=clicks&direction=up') Visits
             th(width="15%")
               a(href='?sort=created_at&direction=down') Created At
-            th(width="10%") Action
+            th(width="10%") Edit
         tbody
           tr
             form(action="/admin/redirect/create", method="POST")
@@ -31,21 +32,16 @@ block content
                 input.form-control(name="key", placeholder="Redirect")
               td
                 input.form-control(name="url", placeholder="https://")
-              td —
-              td —
-              td(colspan=2)
-                button.btn.btn-success.btn-block Create / Update
+              td(colspan=2) —
+              td
+                button.btn.btn-success.btn-block Create
           each redirect in redirects
             tr
-              td.td-overflow(style='vertical-align: middle')
-                a(href=("/admin/view/"+redirect.key))=redirect.key
+              td= redirect.key
               td.td-overflow
                 a(href=redirect.url)= redirect.url
               td= redirect.clicks
               td= redirect.created_at
-              form(action="/admin/redirect/delete", method="POST")
-                td(colspan=2)
-                  input(type="hidden", name="_csrf", value=token)
-                  input(type="hidden", name="key", value=redirect.key)
-                  button.btn.btn-danger.btn-block.remove-button Remove
+              td
+                a.btn.btn-info.btn-block(href=("/admin/view/"+redirect.key)) View
     a.btn.btn-primary.btn-block.logout-button(href="/admin/logout") Log out
