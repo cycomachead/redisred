@@ -1,7 +1,7 @@
 /*
     Use the bit.ly v3 API to grab link data.
     This will grab all links in your bit.ly account
-    
+
     TODO: Write a real readme for this
     Go to here to get Oauth Key:
         https://bitly.com/a/oauth_apps
@@ -42,21 +42,21 @@ var BITLY_DOMAINS = [
 ];
 
 function extractShortCode(url, customDomain) {
-    
+
 }
 
 // Handle bitly's funky timestamp pagination
 // Returns false if no more pages, or the URL to the next page
 function nextPage(resp) {
-    
+
 }
 
 function getBitlyData(apiToken, customURL, callback) {
     var RESULT_DATA = {},
-         
+
 }
 
-token = 'APITOKEN1'
+token = process.env.BITLY_TOKEN;
 headers = {
   'x-access-token': token,
   'Content-Type': 'application/json',

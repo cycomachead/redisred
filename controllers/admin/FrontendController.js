@@ -144,7 +144,6 @@ module.exports = function(redis) {
           errorMessage: err
         });
       } else {
-        console.log('EXISTS???', key, exists);
         if (exists) {
           res.status(400).render('error', {
             statusCode: 400,
